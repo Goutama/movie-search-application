@@ -1,7 +1,6 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {SearchPageService} from "./search-page.service";
-import {SearchPageInput} from "./search-page-input.model";
-import {MatInput} from "@angular/material/input";
+import {Component, OnInit} from '@angular/core';
+import {SearchPageService} from './search-page.service';
+import {SearchInput, TypeCast} from './search-page.model';
 
 @Component({
   selector: 'app-search-page',
@@ -10,10 +9,13 @@ import {MatInput} from "@angular/material/input";
 })
 export class SearchPageComponent implements OnInit {
 
-  public firstName: string;
-  public secondName: string;
-
-  out: any;
+  firstName: string;
+  secondName: string;
+  requirement = 'typecast';
+  requirements: string[] = ['typecast', 'coincidence', 'degree of separation'];
+  errorMessage: string;
+  typeCast: TypeCast;
+  coincidenceMovieList: [];
 
   constructor(private searchPageService: SearchPageService) { }
 
@@ -21,13 +23,31 @@ export class SearchPageComponent implements OnInit {
   }
 
   search() {
-    this.searchPageService.get(
-      {
-        'firstName': this.firstName,
-        'secondName': this.secondName
-      } as SearchPageInput
-    ).subscribe(result =>
-      this.out = result
-    )
+    if (this.requirement === 'typecast') {
+      this.searchPageService.getTypecast(
+        {firstName: this.firstName}
+        ).subscribe(
+        (result) => {
+          this.typeCast = result.body;
+        },
+        error => {
+          this.errorMessage = error.error.message;
+        }
+      );
+    } else if (this.requirement === 'coincidence') {
+      this.searchPageService.getCoincidence(
+        {
+          firstName: this.firstName,
+          secondName: this.secondName
+        } as SearchInput
+      ).subscribe(
+        (result) => {
+          this.coincidenceMovieList = result.body;
+        },
+        error => {
+          this.errorMessage = error.error.message;
+        }
+      );
+    }
   }
 }

@@ -1,10 +1,10 @@
 package com.imdb.movie.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,9 +14,10 @@ import java.util.Set;
         value = {
                 @NamedQuery(
                         name = "Basic.findBasicsByNconsts",
-                        query = "select b from Basic b inner join Principal p on b.tconst = p.tconst and p.nconst in :nconst)")
+                        query = "select b from Basic b inner join Principal p on b.tconst = p.tconst and p.nconst in :nconst")
         })
 @Data
+@Builder
 @EqualsAndHashCode(of = {"tconst"})
 @Entity
 @Table(indexes = {@Index(name = "tconst_idx", columnList = "tconst")})
@@ -34,5 +35,5 @@ public class Basic {
     private String endYear;
     private Integer runtimeMinutes;
     @ElementCollection
-    private Set<String> genres = new HashSet<>();
+    private Set<String> genres;
 }

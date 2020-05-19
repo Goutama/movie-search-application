@@ -18,22 +18,21 @@ public class BasicMapper implements FieldSetMapper<Basic> {
 
     @Override
     public Basic mapFieldSet(FieldSet fieldSet) {
-        Basic basic = new Basic();
-        basic.setTconst(fieldSet.readString("tconst"));
-        basic.setTitleType(replaceWithNull(fieldSet, "titleType"));
-        basic.setPrimaryTitle(replaceWithNull(fieldSet, "primaryTitle"));
-        basic.setOriginalTitle(replaceWithNull(fieldSet, "originalTitle"));
-        basic.setIsAdult(fieldSet.readBoolean("isAdult"));
-        basic.setStartYear(replaceWithNull(fieldSet, "startYear"));
-        basic.setEndYear(replaceWithNull(fieldSet, "endYear"));
+        Basic.BasicBuilder builder = Basic.builder();
+        builder.tconst(fieldSet.readString("tconst"));
+        builder.titleType(replaceWithNull(fieldSet, "titleType"));
+        builder.primaryTitle(replaceWithNull(fieldSet, "primaryTitle"));
+        builder.originalTitle(replaceWithNull(fieldSet, "originalTitle"));
+        builder.isAdult(fieldSet.readBoolean("isAdult"));
+        builder.startYear(replaceWithNull(fieldSet, "startYear"));
+        builder.endYear(replaceWithNull(fieldSet, "endYear"));
         if (nonNull(replaceWithNull(fieldSet, "runtimeMinutes"))) {
-            basic.setRuntimeMinutes(fieldSet.readInt("runtimeMinutes"));
+            builder.runtimeMinutes(fieldSet.readInt("runtimeMinutes"));
         }
         if (nonNull(replaceWithNull(fieldSet, "genres"))) {
-            basic.setGenres(Set.of(fieldSet.readString("genres").split(",")));
+            builder.genres(Set.of(fieldSet.readString("genres").split(",")));
         }
-        return basic;
+        return builder.build();
     }
-
 
 }

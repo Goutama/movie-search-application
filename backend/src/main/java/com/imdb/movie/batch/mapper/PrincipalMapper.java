@@ -15,13 +15,13 @@ public class PrincipalMapper implements FieldSetMapper<Principal> {
 
     @Override
     public Principal mapFieldSet(FieldSet fieldSet) {
-        Principal principal = new Principal();
-        principal.setTconst(fieldSet.readString("tconst"));
-        principal.setOrdering(fieldSet.readLong("ordering"));
-        principal.setNconst(fieldSet.readString("nconst"));
-        principal.setCategory(replaceWithNull(fieldSet, "category"));
-        principal.setJob(replaceWithNull(fieldSet, "job"));
-        principal.setCharacters(replaceWithNull(fieldSet, "characters"));
-        return principal;
+        Principal.PrincipalBuilder builder = Principal.builder();
+        builder.tconst(fieldSet.readString("tconst"));
+        builder.ordering(fieldSet.readLong("ordering"));
+        builder.nconst(fieldSet.readString("nconst"));
+        builder.category(replaceWithNull(fieldSet, "category"));
+        builder.job(replaceWithNull(fieldSet, "job"));
+        builder.characters(replaceWithNull(fieldSet, "characters"));
+        return builder.build();
     }
 }

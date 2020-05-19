@@ -6,19 +6,39 @@
 
 .mat-form-field--inline .mat-form-field {
   display: block;
-  width:40%;
+  width: 40%;
   vertical-align: middle;
 }
 
-mat-card{
-  width: 50%;
+.mat-card-search {
+  width: 60%;
   align-self: center;
+  align-items: center;
+  height: 300px;
+}
+
+.mat-card-result {
+  width: 50%;
+  height: 100px;
+}
+
+.container {
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
   align-items: center;
 }
 
-.container{
-  height: 40vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.radio-group {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.radio-button {
+  margin: 5px;
+}
+
+.selected-value {
+  margin: 15px 0;
 }

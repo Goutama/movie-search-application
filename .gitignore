@@ -8,6 +8,7 @@ out-tsc/
 # dependencies
 node/
 node_modules/
+resources/data/
 
 # IDEs and editors
 /.idea

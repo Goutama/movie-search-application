@@ -2,8 +2,9 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SearchPageComponent} from './search-page/search-page.component';
 import {SearchRoutingModule} from './search-routing.module';
-import {MaterialModule} from "../material.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MaterialModule} from '../material.module';
+import {FormsModule} from '@angular/forms';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [SearchPageComponent],
@@ -11,7 +12,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     CommonModule,
     SearchRoutingModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    MatRadioModule
   ]
 })
 export class SearchModule { }

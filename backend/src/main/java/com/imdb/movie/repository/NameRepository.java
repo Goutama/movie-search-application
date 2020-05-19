@@ -15,5 +15,5 @@ import java.util.Optional;
 @Repository
 public interface NameRepository extends JpaRepository<Name, Long> {
     Optional<Name> findByNconst(String nconst);
-    Name findByPrimaryName(String name);
+    Optional<Name> findByPrimaryName(String name);
 }

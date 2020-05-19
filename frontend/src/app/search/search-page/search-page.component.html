@@ -1,25 +1,51 @@
 <div class="container">
-<mat-card align="top">
-  <mat-card-title>Search Input</mat-card-title>
-  <mat-card-content>
-<li class="mat-form-field--inline">
-  <mat-form-field appearance="outline">
-    <mat-label>First actor/actress</mat-label>
-    <label>
-      <input [(ngModel)]="firstName" matInput>
-    </label>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Second actor/actress</mat-label>
-    <label>
-      <input [(ngModel)]="secondName" matInput>
-    </label>
-  </mat-form-field>
-
-  <button mat-raised-button (click)="search()">Search</button>
-</li>
-  </mat-card-content>
-</mat-card>
+  <mat-card class="mat-card-search">
+    <mat-card-title>Search requirement</mat-card-title>
+    <mat-card-content>
+      <li class="mat-form-field--inline">
+        <mat-radio-group class="radio-group" [(ngModel)]="requirement">
+          <mat-radio-button class="radio-button" *ngFor="let ref of requirements" value="{{ref}}">
+            {{ref}}
+          </mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <mat-error>{{errorMessage}}</mat-error>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>First actor/actress</mat-label>
+          <label>
+            <input [(ngModel)]="firstName" matInput>
+          </label>
+        </mat-form-field>
+        <mat-form-field appearance="outline" *ngIf="requirement !== 'typecast'">
+          <mat-label>Second actor/actress</mat-label>
+          <label>
+            <input [(ngModel)]="secondName" matInput>
+          </label>
+        </mat-form-field>
+        <button mat-raised-button (click)="search();errorMessage=''">Search</button>
+      </li>
+    </mat-card-content>
+  </mat-card>
+  <br><br>
+  <mat-card class="mat-card-result">
+    <mat-card-title>Result</mat-card-title>
+    <mat-card-content>
+      <div *ngIf="requirement === 'typecast' && typeCast">
+        The actor/actress {{firstName}} is <span *ngIf="!typeCast.isTypeCasted"><b>not</b></span> type casted.
+        <p *ngIf="typeCast.isTypeCasted">Genres: {{typeCast.genres}}</p>
+      </div>
+      <div *ngIf="requirement === 'coincidence'">
+        <span *ngIf="coincidenceMovieList.length > 0 else noContent">
+        The common movies and tv shows acted by {{firstName}} and {{secondName}} are,
+        <p>
+          {{coincidenceMovieList}}
+        </p></span>
+        <ng-template #noContent>
+          No common movies or tv shows found for {{firstName}} and {{secondName}}.
+        </ng-template>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 

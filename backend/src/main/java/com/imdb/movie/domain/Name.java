@@ -1,16 +1,17 @@
 package com.imdb.movie.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author gbhat on 16/05/2020.
  */
 @Data
+@Builder
 @EqualsAndHashCode(of = {"nconst"})
 @Entity
 @Table(indexes = {
@@ -27,7 +28,7 @@ public class Name {
     private String birthYear;
     private String deathYear;
     @ElementCollection
-    private List<String> primaryProfessions = new ArrayList<>();
+    private List<String> primaryProfessions;
     @ElementCollection
-    private List<String> knownForTitles = new ArrayList<>();
+    private List<String> knownForTitles;
 }

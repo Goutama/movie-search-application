@@ -18,17 +18,17 @@ public class NameMapper implements FieldSetMapper<Name> {
 
     @Override
     public Name mapFieldSet(FieldSet fieldSet) {
-        Name name = new Name();
-        name.setNconst(fieldSet.readString("nconst"));
-        name.setPrimaryName(replaceWithNull(fieldSet, "primaryName"));
-        name.setBirthYear(replaceWithNull(fieldSet, "birthYear"));
-        name.setDeathYear(replaceWithNull(fieldSet, "deathYear"));
+        Name.NameBuilder builder = Name.builder();
+        builder.nconst(fieldSet.readString("nconst"));
+        builder.primaryName(replaceWithNull(fieldSet, "primaryName"));
+        builder.birthYear(replaceWithNull(fieldSet, "birthYear"));
+        builder.deathYear(replaceWithNull(fieldSet, "deathYear"));
         if (nonNull(replaceWithNull(fieldSet, "primaryProfessions"))) {
-            name.setPrimaryProfessions(Arrays.asList(fieldSet.readString("primaryProfessions").split(",")));
+            builder.primaryProfessions(Arrays.asList(fieldSet.readString("primaryProfessions").split(",")));
         }
         if (nonNull(replaceWithNull(fieldSet, "knownForTitles"))) {
-            name.setKnownForTitles(Arrays.asList(fieldSet.readString("knownForTitles").split(",")));
+            builder.knownForTitles(Arrays.asList(fieldSet.readString("knownForTitles").split(",")));
         }
-        return name;
+        return builder.build();
     }
 }

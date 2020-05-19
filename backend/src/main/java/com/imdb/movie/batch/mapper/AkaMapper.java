@@ -18,19 +18,19 @@ public class AkaMapper implements FieldSetMapper<Aka> {
 
     @Override
     public Aka mapFieldSet(FieldSet fieldSet) {
-        Aka aka = new Aka();
-        aka.setTitleId(replaceWithNull(fieldSet, "titleId"));
-        aka.setOrdering(fieldSet.readLong("ordering"));
-        aka.setTitle(replaceWithNull(fieldSet, "title"));
-        aka.setRegion(replaceWithNull(fieldSet, "region"));
-        aka.setLanguage(replaceWithNull(fieldSet, "language"));
+        Aka.AkaBuilder builder = Aka.builder();
+        builder.titleId(replaceWithNull(fieldSet, "titleId"));
+        builder.ordering(fieldSet.readLong("ordering"));
+        builder.title(replaceWithNull(fieldSet, "title"));
+        builder.region(replaceWithNull(fieldSet, "region"));
+        builder.language(replaceWithNull(fieldSet, "language"));
         if (nonNull(replaceWithNull(fieldSet, "types"))) {
-            aka.setTypes(Arrays.asList(fieldSet.readString("types").split(",")));
+            builder.types(Arrays.asList(fieldSet.readString("types").split(",")));
         }
         if (nonNull(replaceWithNull(fieldSet, "attributes"))) {
-            aka.setAttributes(Arrays.asList(fieldSet.readString("attributes").split(",")));
+            builder.attributes(Arrays.asList(fieldSet.readString("attributes").split(",")));
         }
-        aka.setOriginalTitle(fieldSet.readBoolean("isOriginalTitle"));
-        return aka;
+        builder.isOriginalTitle(fieldSet.readBoolean("isOriginalTitle"));
+        return builder.build();
     }
 }

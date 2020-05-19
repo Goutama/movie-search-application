@@ -1,0 +1,14 @@
+spring:
+  liquibase:
+    change-log: classpath:liquibase/master.xml
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS corp
+    user: sa
+    password:
+    default-schema: CORP
+    drop-first: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+  test:
+    database:
+      replace: none

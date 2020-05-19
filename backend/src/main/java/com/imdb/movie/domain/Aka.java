@@ -1,10 +1,10 @@
 package com.imdb.movie.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +12,7 @@ import java.util.List;
  * @author gbhat on 16/05/2020.
  */
 @Data
+@Builder
 @EqualsAndHashCode(of = {"id", "titleId", "ordering"})
 @Entity
 @Table(uniqueConstraints = {
@@ -31,9 +32,9 @@ public class Aka {
     private String region;
     private String language;
     @ElementCollection
-    private List<String> types = new ArrayList<>();
+    private List<String> types;
     @ElementCollection
-    private List<String> attributes = new ArrayList<>();
+    private List<String> attributes;
     private boolean isOriginalTitle;
 
 }
