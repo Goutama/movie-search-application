@@ -25,8 +25,8 @@ public class Name {
     private Long id;
     private String nconst;
     private String primaryName;
-    private String birthYear;
-    private String deathYear;
+    private Integer birthYear;
+    private Integer deathYear;
     @ElementCollection
     private List<String> primaryProfessions;
     @ElementCollection

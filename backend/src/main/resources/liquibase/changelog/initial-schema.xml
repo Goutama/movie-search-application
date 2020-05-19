@@ -21,11 +21,11 @@
             create table aka_types (aka_id int8 not null, types varchar(255));
 
             -- create basic table
-            create table basic (id int8 not null, end_year varchar(255), is_adult boolean, original_title varchar(255), primary_title varchar(255), runtime_minutes int4, start_year varchar(255), tconst varchar(255), title_type varchar(255), primary key (id));
+            create table basic (id int8 not null, end_year int4, is_adult boolean, original_title varchar(255), primary_title varchar(255), runtime_minutes int4, start_year int4, tconst varchar(255), title_type varchar(255), primary key (id));
             create table basic_genres (basic_id int8 not null, genres varchar(255));
 
             -- create name table
-            create table name (id int8 not null, birth_year varchar(255), death_year varchar(255), nconst varchar(255), primary_name varchar(255), primary key (id));
+            create table name (id int8 not null, birth_year int4, death_year int4, nconst varchar(255), primary_name varchar(255), primary key (id));
             create table name_known_for_titles (name_id int8 not null, known_for_titles varchar(255));
             create table name_primary_professions (name_id int8 not null, primary_professions varchar(255));
 

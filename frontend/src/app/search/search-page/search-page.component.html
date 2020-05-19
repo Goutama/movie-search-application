@@ -31,16 +31,17 @@
   <mat-card class="mat-card-result">
     <mat-card-title>Result</mat-card-title>
     <mat-card-content>
-      <div *ngIf="requirement === 'typecast' && typeCast">
+      <div *ngIf="requirement == 'typecast' && typeCast">
         The actor/actress {{firstName}} is <span *ngIf="!typeCast.isTypeCasted"><b>not</b></span> type casted.
         <p *ngIf="typeCast.isTypeCasted">Genres: {{typeCast.genres}}</p>
       </div>
-      <div *ngIf="requirement === 'coincidence'">
-        <span *ngIf="coincidenceMovieList.length > 0 else noContent">
+      <div *ngIf="requirement == 'coincidence'">
+        <span *ngIf="coincidenceMovieList?.length > 0; else noContent">
         The common movies and tv shows acted by {{firstName}} and {{secondName}} are,
         <p>
           {{coincidenceMovieList}}
-        </p></span>
+        </p>
+        </span>
         <ng-template #noContent>
           No common movies or tv shows found for {{firstName}} and {{secondName}}.
         </ng-template>

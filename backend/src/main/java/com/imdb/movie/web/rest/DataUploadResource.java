@@ -1,6 +1,5 @@
 package com.imdb.movie.web.rest;
 
-import com.imdb.movie.batch.job.AkaJob;
 import com.imdb.movie.batch.job.BasicJob;
 import com.imdb.movie.batch.job.NameJob;
 import com.imdb.movie.batch.job.PrincipalJob;
@@ -27,8 +26,6 @@ public class DataUploadResource {
 
     private final JobLauncher jobLauncher;
 
-    private final AkaJob akaJob;
-
     private final NameJob nameJob;
 
     private final BasicJob basicJob;
@@ -37,12 +34,10 @@ public class DataUploadResource {
 
 
     public DataUploadResource(@Qualifier("concurrentJobLauncher") JobLauncher jobLauncher,
-                              AkaJob akaJob,
                               NameJob nameJob,
                               BasicJob basicJob,
                               PrincipalJob principalJob) {
         this.jobLauncher = jobLauncher;
-        this.akaJob = akaJob;
         this.nameJob = nameJob;
         this.basicJob = basicJob;
         this.principalJob = principalJob;
@@ -56,7 +51,6 @@ public class DataUploadResource {
                         .addLong("time", System.currentTimeMillis())
                         .toJobParameters();
 
-        jobLauncher.run(akaJob.akaJob(), jobParameters);
         jobLauncher.run(nameJob.nameJob(), jobParameters);
         jobLauncher.run(basicJob.basicJob(), jobParameters);
         jobLauncher.run(principalJob.principalJob(), jobParameters);

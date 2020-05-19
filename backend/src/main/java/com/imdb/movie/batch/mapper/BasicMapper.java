@@ -24,8 +24,12 @@ public class BasicMapper implements FieldSetMapper<Basic> {
         builder.primaryTitle(replaceWithNull(fieldSet, "primaryTitle"));
         builder.originalTitle(replaceWithNull(fieldSet, "originalTitle"));
         builder.isAdult(fieldSet.readBoolean("isAdult"));
-        builder.startYear(replaceWithNull(fieldSet, "startYear"));
-        builder.endYear(replaceWithNull(fieldSet, "endYear"));
+        if (nonNull(replaceWithNull(fieldSet, "startYear"))) {
+            builder.startYear(fieldSet.readInt("startYear"));
+        }
+        if (nonNull(replaceWithNull(fieldSet, "endYear"))) {
+            builder.endYear(fieldSet.readInt("endYear"));
+        }
         if (nonNull(replaceWithNull(fieldSet, "runtimeMinutes"))) {
             builder.runtimeMinutes(fieldSet.readInt("runtimeMinutes"));
         }

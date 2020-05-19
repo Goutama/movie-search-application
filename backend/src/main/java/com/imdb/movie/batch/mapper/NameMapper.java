@@ -21,8 +21,12 @@ public class NameMapper implements FieldSetMapper<Name> {
         Name.NameBuilder builder = Name.builder();
         builder.nconst(fieldSet.readString("nconst"));
         builder.primaryName(replaceWithNull(fieldSet, "primaryName"));
-        builder.birthYear(replaceWithNull(fieldSet, "birthYear"));
-        builder.deathYear(replaceWithNull(fieldSet, "deathYear"));
+        if (nonNull(replaceWithNull(fieldSet, "birthYear"))) {
+            builder.birthYear(fieldSet.readInt("birthYear"));
+        }
+        if (nonNull(replaceWithNull(fieldSet, "deathYear"))) {
+            builder.deathYear(fieldSet.readInt("deathYear"));
+        }
         if (nonNull(replaceWithNull(fieldSet, "primaryProfessions"))) {
             builder.primaryProfessions(Arrays.asList(fieldSet.readString("primaryProfessions").split(",")));
         }

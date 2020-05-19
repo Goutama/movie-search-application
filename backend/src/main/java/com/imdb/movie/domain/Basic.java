@@ -31,8 +31,8 @@ public class Basic {
     private String primaryTitle;
     private String originalTitle;
     private Boolean isAdult;
-    private String startYear;
-    private String endYear;
+    private Integer startYear;
+    private Integer endYear;
     private Integer runtimeMinutes;
     @ElementCollection
     private Set<String> genres;
