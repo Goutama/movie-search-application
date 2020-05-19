@@ -1,0 +1,37 @@
+server:
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: movie-search-application
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+      hibernate.id.new_generator_mappings: true
+      hibernate.generate_statistics: false
+      hibernate.jdbc.batch_size: 25
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+    hibernate:
+      ddl-auto: none
+  batch:
+    initialize-schema: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics
+      base-path: /manage
+  security:
+    enable: false
+  endpoint:
+    health:
+      show-details: always
+
+# custom properties
+
+application:
+  host: localhost:9200

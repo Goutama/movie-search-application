@@ -1,0 +1,25 @@
+<div class="container">
+<mat-card align="top">
+  <mat-card-title>Search Input</mat-card-title>
+  <mat-card-content>
+<li class="mat-form-field--inline">
+  <mat-form-field appearance="outline">
+    <mat-label>First actor/actress</mat-label>
+    <label>
+      <input [(ngModel)]="firstName" matInput>
+    </label>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Second actor/actress</mat-label>
+    <label>
+      <input [(ngModel)]="secondName" matInput>
+    </label>
+  </mat-form-field>
+
+  <button mat-raised-button (click)="search()">Search</button>
+</li>
+  </mat-card-content>
+</mat-card>
+</div>
+

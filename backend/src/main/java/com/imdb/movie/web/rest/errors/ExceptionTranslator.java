@@ -1,0 +1,32 @@
+package com.imdb.movie.web.rest.errors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+/**
+ * A controller advice to translate the server side exceptions to user friendly format.
+ *
+ * @author gbhat on 14/05/2020.
+ */
+@ControllerAdvice
+public class ExceptionTranslator {
+
+    private final Logger log = LoggerFactory.getLogger(ExceptionTranslator.class);
+
+    /**
+     * Exception handler for all the exceptions.
+     *
+     * @param ex the exception.
+     * @return the response entity with api error response.
+     */
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<ApiErrorResponse> handleAllExceptions(Exception ex) {
+        log.error("Error::", ex);
+        ApiErrorResponse errors = new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", ex);
+        return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+        <property name="autoIncrement" value="true"/>
+
+    <changeSet id="20200518-1" author="gbhat">
+        <sql stripComments="true">
+            <comment>Initial application schema</comment>
+            -- create sequence
+            create sequence aka_seq start 1 increment 1;
+            create sequence basic_seq start 1 increment 1;
+            create sequence name_seq start 1 increment 1;
+            create sequence principal_seq start 1 increment 1;
+
+            -- create aka table
+            create table aka (id int8 not null, is_original_title boolean not null, language varchar(255), ordering int8, region varchar(255), title varchar(255), title_id varchar(255), primary key (id));
+            create table aka_attributes (aka_id int8 not null, attributes varchar(255));
+            create table aka_types (aka_id int8 not null, types varchar(255));
+
+            -- create basic table
+            create table basic (id int8 not null, end_year varchar(255), is_adult boolean, original_title varchar(255), primary_title varchar(255), runtime_minutes int4, start_year varchar(255), tconst varchar(255), title_type varchar(255), primary key (id));
+            create table basic_genres (basic_id int8 not null, genres varchar(255));
+
+            -- create name table
+            create table name (id int8 not null, birth_year varchar(255), death_year varchar(255), nconst varchar(255), primary_name varchar(255), primary key (id));
+            create table name_known_for_titles (name_id int8 not null, known_for_titles varchar(255));
+            create table name_primary_professions (name_id int8 not null, primary_professions varchar(255));
+
+            -- create principal table
+            create table principal (id int8 not null, category varchar(255), characters varchar(255), job varchar(255), nconst varchar(255), ordering int8, tconst varchar(255), primary key (id));
+
+            -- create index and unique constraints for aka table
+            create index title_id_idx on aka (title_id);
+            alter table aka add constraint UK34jaito42totulfrm1yjfbsa9 unique (title_id, ordering);
+
+            -- create index for basic table
+            create index tconst_idx on basic (tconst);
+
+            -- create index for name table
+            create index nconst_idx on name (nconst);
+            create index primary_name_idx on name (primary_name);
+
+            -- create index and unique constraints for principal table
+            create index title_tconst_idx on principal (tconst);
+            create index name_nconst_idx on principal (nconst);
+            alter table principal add constraint UKfs1g6f11xwpjmn8s98bg6d9pe unique (tconst, ordering);
+
+            -- add foreign key references
+            alter table aka_attributes add constraint FKr6dwgindef9iyuywtiluvscvy foreign key (aka_id) references aka;
+            alter table aka_types add constraint FK1jcowckuwigriq9b8yejq9gyk foreign key (aka_id) references aka;
+            alter table basic_genres add constraint FKt79mj0nk0bhfj6vsgb4gxi1eb foreign key (basic_id) references basic;
+            alter table name_known_for_titles add constraint FK954avxp6gail4g8gejrc4e5t9 foreign key (name_id) references name;
+            alter table name_primary_professions add constraint FK43gt4gseq02vqi1x79h8vid4j foreign key (name_id) references name;
+        </sql>
+    </changeSet>
+    <changeSet id="20200518-2" author="gbhat">
+        <sql stripComments="true" splitStatements="true">
+            <comment>Initial spring batch schema</comment>
+            -- spring batch initial schema
+
+            CREATE TABLE BATCH_JOB_INSTANCE  (
+            JOB_INSTANCE_ID BIGINT  NOT NULL PRIMARY KEY ,
+            VERSION BIGINT ,
+            JOB_NAME VARCHAR(100) NOT NULL,
+            JOB_KEY VARCHAR(32) NOT NULL,
+            constraint JOB_INST_UN unique (JOB_NAME, JOB_KEY)
+            ) ;
+
+            CREATE TABLE BATCH_JOB_EXECUTION  (
+            JOB_EXECUTION_ID BIGINT  NOT NULL PRIMARY KEY ,
+            VERSION BIGINT  ,
+            JOB_INSTANCE_ID BIGINT NOT NULL,
+            CREATE_TIME TIMESTAMP NOT NULL,
+            START_TIME TIMESTAMP DEFAULT NULL ,
+            END_TIME TIMESTAMP DEFAULT NULL ,
+            STATUS VARCHAR(10) ,
+            EXIT_CODE VARCHAR(2500) ,
+            EXIT_MESSAGE VARCHAR(2500) ,
+            LAST_UPDATED TIMESTAMP,
+            JOB_CONFIGURATION_LOCATION VARCHAR(2500) NULL,
+            constraint JOB_INST_EXEC_FK foreign key (JOB_INSTANCE_ID)
+            references BATCH_JOB_INSTANCE(JOB_INSTANCE_ID)
+            ) ;
+
+            CREATE TABLE BATCH_JOB_EXECUTION_PARAMS  (
+            JOB_EXECUTION_ID BIGINT NOT NULL ,
+            TYPE_CD VARCHAR(6) NOT NULL ,
+            KEY_NAME VARCHAR(100) NOT NULL ,
+            STRING_VAL VARCHAR(250) ,
+            DATE_VAL TIMESTAMP DEFAULT NULL ,
+            LONG_VAL BIGINT ,
+            DOUBLE_VAL DOUBLE PRECISION ,
+            IDENTIFYING CHAR(1) NOT NULL ,
+            constraint JOB_EXEC_PARAMS_FK foreign key (JOB_EXECUTION_ID)
+            references BATCH_JOB_EXECUTION(JOB_EXECUTION_ID)
+            ) ;
+
+            CREATE TABLE BATCH_STEP_EXECUTION  (
+            STEP_EXECUTION_ID BIGINT  NOT NULL PRIMARY KEY ,
+            VERSION BIGINT NOT NULL,
+            STEP_NAME VARCHAR(100) NOT NULL,
+            JOB_EXECUTION_ID BIGINT NOT NULL,
+            START_TIME TIMESTAMP NOT NULL ,
+            END_TIME TIMESTAMP DEFAULT NULL ,
+            STATUS VARCHAR(10) ,
+            COMMIT_COUNT BIGINT ,
+            READ_COUNT BIGINT ,
+            FILTER_COUNT BIGINT ,
+            WRITE_COUNT BIGINT ,
+            READ_SKIP_COUNT BIGINT ,
+            WRITE_SKIP_COUNT BIGINT ,
+            PROCESS_SKIP_COUNT BIGINT ,
+            ROLLBACK_COUNT BIGINT ,
+            EXIT_CODE VARCHAR(2500) ,
+            EXIT_MESSAGE VARCHAR(2500) ,
+            LAST_UPDATED TIMESTAMP,
+            constraint JOB_EXEC_STEP_FK foreign key (JOB_EXECUTION_ID)
+            references BATCH_JOB_EXECUTION(JOB_EXECUTION_ID)
+            ) ;
+
+            CREATE TABLE BATCH_STEP_EXECUTION_CONTEXT  (
+            STEP_EXECUTION_ID BIGINT NOT NULL PRIMARY KEY,
+            SHORT_CONTEXT VARCHAR(2500) NOT NULL,
+            SERIALIZED_CONTEXT TEXT ,
+            constraint STEP_EXEC_CTX_FK foreign key (STEP_EXECUTION_ID)
+            references BATCH_STEP_EXECUTION(STEP_EXECUTION_ID)
+            ) ;
+
+            CREATE TABLE BATCH_JOB_EXECUTION_CONTEXT  (
+            JOB_EXECUTION_ID BIGINT NOT NULL PRIMARY KEY,
+            SHORT_CONTEXT VARCHAR(2500) NOT NULL,
+            SERIALIZED_CONTEXT TEXT ,
+            constraint JOB_EXEC_CTX_FK foreign key (JOB_EXECUTION_ID)
+            references BATCH_JOB_EXECUTION(JOB_EXECUTION_ID)
+            ) ;
+
+            CREATE SEQUENCE BATCH_STEP_EXECUTION_SEQ MAXVALUE 9223372036854775807 NO CYCLE;
+            CREATE SEQUENCE BATCH_JOB_EXECUTION_SEQ MAXVALUE 9223372036854775807 NO CYCLE;
+            CREATE SEQUENCE BATCH_JOB_SEQ MAXVALUE 9223372036854775807 NO CYCLE;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
