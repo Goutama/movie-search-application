@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * A writer for Basic.
+ * A item writer for Basic entity.
  *
  * @author gbhat on 16/05/2020.
  */

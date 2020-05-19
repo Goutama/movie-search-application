@@ -7,7 +7,7 @@ import org.springframework.batch.item.file.transform.FieldSet;
 import static com.imdb.movie.batch.util.FieldUtil.replaceWithNull;
 
 /**
- * A field mapper for Principal.
+ * A field mapper for Principal entity.
  *
  * @author gbhat on 17/05/2020.
  */

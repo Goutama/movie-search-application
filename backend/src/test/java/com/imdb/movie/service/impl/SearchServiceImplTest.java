@@ -21,6 +21,8 @@ import java.util.Set;
 import static org.mockito.ArgumentMatchers.any;
 
 /**
+ * A unit test class for search service {@link SearchServiceImpl} implementation.
+ *
  * @author gbhat on 19/05/2020.
  */
 public class SearchServiceImplTest {

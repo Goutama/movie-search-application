@@ -26,8 +26,8 @@ public interface SearchService {
      *
      * @param firstName  the first actor/actress name.
      * @param secondName the second actor/actress name.
-     * @return {@link List<TypeCastDTO>} the movie/tv shows list.
-     * @throws NameNotFoundException if the input name is not found.
+     * @return {@link List<TypeCastDTO>} the movie and tv shows names.
+     * @throws NameNotFoundException if the input names are not found.
      */
     Set<String> search(final String firstName, final String secondName) throws NameNotFoundException;
 }

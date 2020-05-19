@@ -43,7 +43,6 @@ public class SearchServiceImpl implements SearchService {
 
     /**
      * {@inheritDoc}
-     *
      */
     @Override
     @Transactional(readOnly = true)

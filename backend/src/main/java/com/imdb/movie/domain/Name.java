@@ -8,6 +8,8 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
+ * A Name entity.
+ *
  * @author gbhat on 16/05/2020.
  */
 @Data

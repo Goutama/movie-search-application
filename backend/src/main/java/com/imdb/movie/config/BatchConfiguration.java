@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 
 /**
+ * A batch configuration.
+ *
  * @author gbhat on 17/05/2020.
  */
 @Configuration

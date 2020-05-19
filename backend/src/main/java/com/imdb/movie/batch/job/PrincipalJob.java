@@ -20,7 +20,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 /**
- * A job to process Principal details.
+ * A job to upload Principal details.
  *
  * @author gbhat on 16/05/2020.
  */

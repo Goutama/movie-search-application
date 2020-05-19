@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 
 /**
+ * A Principal entity.
+ *
  * @author gbhat on 16/05/2020.
  */
 @Data

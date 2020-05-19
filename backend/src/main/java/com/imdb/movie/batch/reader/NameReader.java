@@ -12,7 +12,7 @@ import static org.springframework.batch.item.file.transform.DelimitedLineTokeniz
 
 
 /**
- * A item reader for Name.
+ * A item reader for Name entity.
  *
  * @author gbhat on 16/05/2020.
  */

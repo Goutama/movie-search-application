@@ -8,6 +8,8 @@ import javax.persistence.*;
 import java.util.Set;
 
 /**
+ * A Basic entity.
+ *
  * @author gbhat on 16/05/2020.
  */
 @NamedQueries(

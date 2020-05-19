@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
- * A item processor for Basic.
+ * A item processor for Basic entity.
  *
  * @author gbhat on 16/05/2020.
  */

@@ -10,7 +10,7 @@ import static com.imdb.movie.batch.util.FieldUtil.replaceWithNull;
 import static java.util.Objects.nonNull;
 
 /**
- * A field mapper for Basic.
+ * A field mapper for Basic entity.
  *
  * @author gbhat on 17/05/2020.
  */

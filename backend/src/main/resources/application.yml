@@ -30,8 +30,3 @@ management:
   endpoint:
     health:
       show-details: always
-
-# custom properties
-
-application:
-  host: localhost:9200

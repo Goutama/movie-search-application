@@ -4,6 +4,7 @@ import com.imdb.movie.batch.job.BasicJob;
 import com.imdb.movie.batch.job.NameJob;
 import com.imdb.movie.batch.job.PrincipalJob;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -32,17 +33,21 @@ public class DataUploadResource {
 
     private final PrincipalJob principalJob;
 
-
-    public DataUploadResource(@Qualifier("concurrentJobLauncher") JobLauncher jobLauncher,
-                              NameJob nameJob,
-                              BasicJob basicJob,
-                              PrincipalJob principalJob) {
+    public DataUploadResource(NameJob nameJob, BasicJob basicJob, PrincipalJob principalJob,
+                              @Qualifier("concurrentJobLauncher") JobLauncher jobLauncher) {
         this.jobLauncher = jobLauncher;
         this.nameJob = nameJob;
         this.basicJob = basicJob;
         this.principalJob = principalJob;
     }
 
+    /**
+     * Method to trigger batch jobs.
+     *
+     * @return the message.
+     * @throws Exception the job related exception.
+     */
+    @ApiOperation("End point to trigger batch jobs")
     @PutMapping("/run-batch-jobs")
     public String runBatchJobs() throws Exception {
 
@@ -55,6 +60,6 @@ public class DataUploadResource {
         jobLauncher.run(basicJob.basicJob(), jobParameters);
         jobLauncher.run(principalJob.principalJob(), jobParameters);
 
-        return "Batch job has been invoked";
+        return "Batch jobs are invoked";
     }
 }

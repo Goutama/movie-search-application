@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
- * A item processor for Principal.
+ * A item processor for Principal entity.
  *
  * @author gbhat on 16/05/2020.
  */

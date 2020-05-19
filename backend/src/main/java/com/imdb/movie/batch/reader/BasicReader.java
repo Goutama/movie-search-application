@@ -12,7 +12,7 @@ import static org.springframework.batch.item.file.transform.DelimitedLineTokeniz
 
 
 /**
- * A item reader for Basic.
+ * A item reader for Basic entity.
  *
  * @author gbhat on 16/05/2020.
  */
