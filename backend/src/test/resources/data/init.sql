@@ -61,7 +61,7 @@ values (
     'director',
     '["Self"]',
     'director of photography',
-    'nm0621447',
+    'nm0621448',
     1,
     'tt0000001')
 ;

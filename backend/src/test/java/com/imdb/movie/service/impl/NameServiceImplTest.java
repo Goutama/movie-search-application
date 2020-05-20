@@ -143,4 +143,22 @@ public class NameServiceImplTest {
 
         Assert.assertTrue(coincidenceDTO.getCommonTitles().isEmpty());
     }
+
+    @Test
+    public void findLinkLevel_ValidInput_ShouldReturnLinkLevel() throws NameNotFoundException {
+        Name nameOne = Name.builder()
+                .nconst("n1")
+                .primaryName("Pappan Naripatta")
+                .build();
+        Name nameTwo = Name.builder()
+                .nconst("n2")
+                .primaryName("Maik Jain")
+                .build();
+        Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Optional.of(nameOne));
+        Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Optional.of(nameTwo));
+        Mockito.when(nameRepository.findDegreesOfSeparation("n1", "n2")).thenReturn((short) 1);
+        var linkLevelDTO = nameService.findLinkLevel("Pappan Naripatta", "Maik Jain");
+
+        Assert.assertEquals(1, linkLevelDTO.getLevelOfSeparation().shortValue());
+    }
 }
