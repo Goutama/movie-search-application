@@ -8,11 +8,11 @@ import com.imdb.movie.exception.NameNotFoundException;
 import java.util.List;
 
 /**
- * A service class to manage movie search.
+ * A service class to manage name related operations.
  *
  * @author gbhat on 14/05/2020.
  */
-public interface SearchService {
+public interface NameService {
     /**
      * Service method to get typecasting info for given input name.
      *

@@ -12,7 +12,7 @@ export class SearchPageService {
   }
 
   getTypecast(searchInput): Observable<HttpResponse<TypeCastInfo>> {
-    return this.http.get<TypeCastInfo>(`/api/search/typecast`, {
+    return this.http.get<TypeCastInfo>(`/api/names/typecast`, {
       params: {
         name: searchInput.sourceName
       },
@@ -21,7 +21,7 @@ export class SearchPageService {
   }
 
   getCoincidence(searchInput): Observable<HttpResponse<Coincidence>> {
-    return this.http.get<Coincidence>(`/api/search/coincidence`, {
+    return this.http.get<Coincidence>(`/api/names/coincidence`, {
       params: {
         sourceName: searchInput.sourceName,
         targetName: searchInput.targetName
@@ -31,7 +31,7 @@ export class SearchPageService {
   }
 
   getLinkLevel(searchInput): Observable<HttpResponse<LinkLevel>> {
-    return this.http.get<LinkLevel>(`/api/search/degrees-of-separation`, {
+    return this.http.get<LinkLevel>(`/api/names/degrees-of-separation`, {
       params: {
         sourceName: searchInput.sourceName,
         targetName: searchInput.targetName

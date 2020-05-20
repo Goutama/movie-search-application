@@ -4,7 +4,7 @@ import com.imdb.movie.dto.CoincidenceDTO;
 import com.imdb.movie.dto.LinkLevelDTO;
 import com.imdb.movie.dto.TypeCastDTO;
 import com.imdb.movie.exception.NameNotFoundException;
-import com.imdb.movie.service.SearchService;
+import com.imdb.movie.service.NameService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -19,21 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author gbhat on 18/05/2020.
  */
-@Api(value = "Resource to handle search search")
+@Api(value = "Resource to handle name search")
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/names")
 @Slf4j
-public class SearchResource {
+public class NameResource {
 
-    private final SearchService searchService;
+    private final NameService nameService;
 
     /**
      * The default constructor.
      *
-     * @param searchService the search service.
+     * @param nameService the name search service.
      */
-    public SearchResource(SearchService searchService) {
-        this.searchService = searchService;
+    public NameResource(NameService nameService) {
+        this.nameService = nameService;
     }
 
     /**
@@ -47,7 +47,7 @@ public class SearchResource {
     @GetMapping("/typecast")
     public TypeCastDTO findTypeCastInfo(@RequestParam(value = "name") final String name) throws NameNotFoundException {
         log.info("REST request to get typecast detail for actor/actress {}", name);
-        return searchService.findTypeCastInfo(name);
+        return nameService.findTypeCastInfo(name);
     }
 
     /**
@@ -62,7 +62,7 @@ public class SearchResource {
     @GetMapping("/coincidence")
     public CoincidenceDTO findCoincidence(@RequestParam(value = "sourceName") final String sourceName, @RequestParam(value = "targetName") final String targetName) throws NameNotFoundException {
         log.info("REST request to get coincidence detail for actors/actresses {} and {}", sourceName, targetName);
-        return searchService.findCoincidence(sourceName, targetName);
+        return nameService.findCoincidence(sourceName, targetName);
     }
 
     /**
@@ -75,8 +75,8 @@ public class SearchResource {
      */
     @ApiOperation("End point to get degrees of separation between input actors/actresses")
     @GetMapping("/degrees-of-separation")
-    public LinkLevelDTO findLinkLevel(@RequestParam(value = "sourceName") final String sourceName, @RequestParam(value = "targetName", defaultValue = "Kelvin Becon") final String targetName) throws NameNotFoundException {
+    public LinkLevelDTO findLinkLevel(@RequestParam(value = "sourceName") final String sourceName, @RequestParam(value = "targetName", defaultValue = "Kevin Bacon") final String targetName) throws NameNotFoundException {
         log.info("REST request to get degrees of separation between actors/actresses {} and {}", sourceName, targetName);
-        return searchService.findLinkLevel(sourceName, targetName);
+        return nameService.findLinkLevel(sourceName, targetName);
     }
 }

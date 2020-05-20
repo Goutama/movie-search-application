@@ -11,7 +11,7 @@ spring:
       hibernate.jdbc.time_zone: UTC
       hibernate.id.new_generator_mappings: true
       hibernate.generate_statistics: false
-      hibernate.jdbc.batch_size: 25
+      hibernate.jdbc.batch_size: 50
       hibernate.order_inserts: true
       hibernate.order_updates: true
     hibernate:
@@ -30,3 +30,10 @@ management:
   endpoint:
     health:
       show-details: always
+
+#Application related properties
+application:
+  batch-jobs:
+    name-file-dir: data/name.basics.tsv.gz
+    title-file-dir: data/title.basics.tsv.gz
+    principal-file-dir: data/title.principals.tsv.gz

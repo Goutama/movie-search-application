@@ -56,9 +56,9 @@ public class DataUploadResource {
                         .addLong("time", System.currentTimeMillis())
                         .toJobParameters();
 
-        jobLauncher.run(nameJob.nameJob(), jobParameters);
-        jobLauncher.run(titleJob.titleJob(), jobParameters);
-        jobLauncher.run(principalJob.principalJob(), jobParameters);
+        jobLauncher.run(nameJob.buildJob(), jobParameters);
+        jobLauncher.run(titleJob.buildJob(), jobParameters);
+        jobLauncher.run(principalJob.buildJob(), jobParameters);
 
         return "Batch jobs are invoked";
     }

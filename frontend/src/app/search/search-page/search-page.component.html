@@ -23,17 +23,18 @@
             <input [(ngModel)]="targetName" matInput>
           </label>
         </mat-form-field>
-        <button mat-raised-button (click)="search(); errorMessage='';">Search</button>
+        <button mat-raised-button [disabled]="isLoading" (click)="search(); errorMessage='';">Search</button>
       </li>
     </mat-card-content>
   </mat-card>
   <br><br>
   <mat-card class="mat-card-result">
     <mat-card-title>Result</mat-card-title>
+    <span *ngIf="isLoading"><i>Please be patient, this request may take several minutes.</i></span>
     <mat-card-content>
       <div *ngIf="requirement == 'typecast' && typeCastInfo">
         The actor/actress <b>{{sourceName}}</b> is <span *ngIf="!typeCastInfo.isTypeCasted"><b>not</b></span> type casted.
-        <p *ngIf="typeCastInfo.isTypeCasted">Genres: {{typeCastInfo.genres}}</p>
+        <p *ngIf="typeCastInfo.isTypeCasted">Genre(s): {{typeCastInfo.genres}}</p>
       </div>
       <div *ngIf="requirement == 'coincidence' && coincidence">
         <span *ngIf="coincidence.commonTitles?.length > 0">

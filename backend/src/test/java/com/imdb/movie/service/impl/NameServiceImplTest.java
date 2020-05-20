@@ -6,7 +6,7 @@ import com.imdb.movie.dto.TypeCastDTO;
 import com.imdb.movie.exception.NameNotFoundException;
 import com.imdb.movie.repository.NameRepository;
 import com.imdb.movie.repository.TitleRepository;
-import com.imdb.movie.service.SearchService;
+import com.imdb.movie.service.NameService;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,11 +21,11 @@ import java.util.Set;
 import static org.mockito.ArgumentMatchers.any;
 
 /**
- * A unit test class for search service {@link SearchServiceImpl} implementation.
+ * A unit test class for search service {@link NameServiceImpl} implementation.
  *
  * @author gbhat on 19/05/2020.
  */
-public class SearchServiceImplTest {
+public class NameServiceImplTest {
 
     @Mock
     private NameRepository nameRepository;
@@ -33,12 +33,12 @@ public class SearchServiceImplTest {
     @Mock
     private TitleRepository titleRepository;
 
-    private SearchService searchService;
+    private NameService nameService;
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        searchService = new SearchServiceImpl(nameRepository, titleRepository);
+        nameService = new NameServiceImpl(nameRepository, titleRepository);
     }
 
     @Test
@@ -52,7 +52,7 @@ public class SearchServiceImplTest {
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.of(name));
         Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Set.of(title));
 
-        TypeCastDTO typeCastDTO = searchService.findTypeCastInfo("Pappan Naripatta");
+        TypeCastDTO typeCastDTO = nameService.findTypeCastInfo("Pappan Naripatta");
 
         Assert.assertEquals(true, typeCastDTO.getIsTypeCasted());
         Assert.assertEquals("Action", typeCastDTO.getGenres().get(0));
@@ -78,7 +78,7 @@ public class SearchServiceImplTest {
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.of(name));
         Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Set.of(titleOne, titleTwo, titleThree));
 
-        TypeCastDTO typeCastDTO = searchService.findTypeCastInfo("Pappan Naripatta");
+        TypeCastDTO typeCastDTO = nameService.findTypeCastInfo("Pappan Naripatta");
 
         Assert.assertEquals(false, typeCastDTO.getIsTypeCasted());
         Assert.assertTrue(typeCastDTO.getGenres().isEmpty());
@@ -87,7 +87,7 @@ public class SearchServiceImplTest {
     @Test(expected = NameNotFoundException.class)
     public void findName_InValidInput_ShouldThrowException() throws NameNotFoundException {
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.empty());
-        searchService.findTypeCastInfo("Pappan Naripatta");
+        nameService.findTypeCastInfo("Pappan Naripatta");
     }
 
     @Test
@@ -110,7 +110,7 @@ public class SearchServiceImplTest {
         Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Set.of(title));
         Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Set.of(title));
 
-        var coincidenceDTO = searchService.findCoincidence("Pappan Naripatta", "Maik Jain");
+        var coincidenceDTO = nameService.findCoincidence("Pappan Naripatta", "Maik Jain");
 
         Assert.assertThat(coincidenceDTO.getCommonTitles(), Matchers.hasItem("Carmencita"));
     }
@@ -139,7 +139,7 @@ public class SearchServiceImplTest {
         Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Optional.of(nameTwo));
         Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Set.of(titleOne));
         Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Set.of(titleTwo));
-        var coincidenceDTO = searchService.findCoincidence("Pappan Naripatta", "Maik Jain");
+        var coincidenceDTO = nameService.findCoincidence("Pappan Naripatta", "Maik Jain");
 
         Assert.assertTrue(coincidenceDTO.getCommonTitles().isEmpty());
     }

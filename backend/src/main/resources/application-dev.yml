@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/movie_search_db
+    url: jdbc:postgresql://localhost:5432/movie_search_db?reWriteBatchedInserts=true
     username: root
     password: password123
   jpa:

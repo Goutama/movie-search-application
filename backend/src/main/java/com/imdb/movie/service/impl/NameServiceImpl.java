@@ -8,7 +8,7 @@ import com.imdb.movie.dto.TypeCastDTO;
 import com.imdb.movie.exception.NameNotFoundException;
 import com.imdb.movie.repository.NameRepository;
 import com.imdb.movie.repository.TitleRepository;
-import com.imdb.movie.service.SearchService;
+import com.imdb.movie.service.NameService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,13 +21,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * A service class to manage names.
+ * A service class to manage name related operations.
  *
  * @author gbhat on 14/05/2020.
  */
 @Service
 @Slf4j
-public class SearchServiceImpl implements SearchService {
+public class NameServiceImpl implements NameService {
 
     private final NameRepository nameRepository;
     private final TitleRepository titleRepository;
@@ -38,7 +38,7 @@ public class SearchServiceImpl implements SearchService {
      * @param nameRepository  the name repository.
      * @param titleRepository the title repository.
      */
-    public SearchServiceImpl(NameRepository nameRepository, TitleRepository titleRepository) {
+    public NameServiceImpl(NameRepository nameRepository, TitleRepository titleRepository) {
         this.nameRepository = nameRepository;
         this.titleRepository = titleRepository;
     }
@@ -88,8 +88,10 @@ public class SearchServiceImpl implements SearchService {
     @Override
     @Transactional(readOnly = true)
     public CoincidenceDTO findCoincidence(final String sourceName, final String targetName) throws NameNotFoundException {
+
         var titlesOfSourceName = retrieveTitlesForName(sourceName);
         var titlesOfTargetName = retrieveTitlesForName(targetName);
+
         Set<Title> result = new HashSet<>(titlesOfSourceName);
         result.retainAll(titlesOfTargetName);
 
@@ -109,9 +111,12 @@ public class SearchServiceImpl implements SearchService {
     @Override
     @Transactional(readOnly = true)
     public LinkLevelDTO findLinkLevel(final String sourceName, final String targetName) throws NameNotFoundException {
+
         var sourceNameObj = retrieveName(sourceName);
         var targetNameObj = retrieveName(targetName);
+
         var distance = nameRepository.findDegreesOfSeparation(sourceNameObj.getNconst(), targetNameObj.getNconst());
+
         var builder =
                 LinkLevelDTO.builder()
                         .sourceName(sourceName)

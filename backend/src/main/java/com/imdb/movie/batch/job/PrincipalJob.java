@@ -4,6 +4,7 @@ import com.imdb.movie.batch.converter.GzipBufferedReader;
 import com.imdb.movie.batch.processor.PrincipalProcessor;
 import com.imdb.movie.batch.reader.PrincipalReader;
 import com.imdb.movie.batch.writer.PrincipalWriter;
+import com.imdb.movie.config.ApplicationProperties;
 import com.imdb.movie.domain.Principal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.BatchStatus;
@@ -29,45 +30,47 @@ import org.springframework.stereotype.Component;
 public class PrincipalJob extends JobExecutionListenerSupport {
 
     private final JobBuilderFactory jobBuilderFactory;
-
     private final StepBuilderFactory stepBuilderFactory;
-
     private final GzipBufferedReader gZipBufferedReader;
-
     private final PrincipalWriter writer;
-
     private final PrincipalProcessor processor;
-
     private final TaskExecutor taskExecutor;
+    private final ApplicationProperties applicationProperties;
 
     public PrincipalJob(JobBuilderFactory jobBuilderFactory,
                         StepBuilderFactory stepBuilderFactory,
                         GzipBufferedReader gZipBufferedReader,
                         PrincipalWriter writer,
                         PrincipalProcessor processor,
-                        @Qualifier("taskExecutor") TaskExecutor taskExecutor) {
+                        @Qualifier("taskExecutor") TaskExecutor taskExecutor,
+                        ApplicationProperties applicationProperties) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
         this.gZipBufferedReader = gZipBufferedReader;
         this.writer = writer;
         this.processor = processor;
         this.taskExecutor = taskExecutor;
+        this.applicationProperties = applicationProperties;
     }
 
-    public Job principalJob() {
+    public Job buildJob() {
+        Step step =
+                stepBuilderFactory
+                        .get("principal-job-step")
+                        .<Principal, Principal>chunk(50)
+                        .reader(
+                                new PrincipalReader(
+                                        new ClassPathResource(applicationProperties.getBatchJobs().getPrincipalFileDir()), gZipBufferedReader)
+                        ).processor(processor)
+                        .writer(writer)
+                        .faultTolerant()
+                        .skipLimit(100)
+                        .skip(Exception.class)
+                        .taskExecutor(taskExecutor)
+                        .build();
 
-        Step step = stepBuilderFactory.get("principal-job-step")
-                .<Principal, Principal> chunk(25)
-                .reader(new PrincipalReader(new ClassPathResource("data/title.principals.tsv.gz"), gZipBufferedReader))
-                .processor(processor)
-                .writer(writer)
-                .faultTolerant()
-                .skipLimit(100)
-                .skip(Exception.class)
-                .taskExecutor(taskExecutor)
-                .build();
-
-        return jobBuilderFactory.get("principal-job")
+        return jobBuilderFactory
+                .get("principal-job")
                 .incrementer(new RunIdIncrementer())
                 .listener(this)
                 .start(step)

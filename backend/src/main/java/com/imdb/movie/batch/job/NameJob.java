@@ -4,6 +4,7 @@ import com.imdb.movie.batch.converter.GzipBufferedReader;
 import com.imdb.movie.batch.processor.NameProcessor;
 import com.imdb.movie.batch.reader.NameReader;
 import com.imdb.movie.batch.writer.NameWriter;
+import com.imdb.movie.config.ApplicationProperties;
 import com.imdb.movie.domain.Name;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.BatchStatus;
@@ -29,45 +30,47 @@ import org.springframework.stereotype.Component;
 public class NameJob extends JobExecutionListenerSupport {
 
     private final JobBuilderFactory jobBuilderFactory;
-
     private final StepBuilderFactory stepBuilderFactory;
-
     private final GzipBufferedReader gZipBufferedReader;
-
     private final NameWriter writer;
-
     private final NameProcessor processor;
-
     private final TaskExecutor taskExecutor;
+    private final ApplicationProperties applicationProperties;
 
     public NameJob(JobBuilderFactory jobBuilderFactory,
                    StepBuilderFactory stepBuilderFactory,
                    GzipBufferedReader gZipBufferedReader,
                    NameWriter writer,
                    NameProcessor processor,
-                   @Qualifier("taskExecutor") TaskExecutor taskExecutor) {
+                   @Qualifier("taskExecutor") TaskExecutor taskExecutor,
+                   ApplicationProperties applicationProperties) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
         this.gZipBufferedReader = gZipBufferedReader;
         this.writer = writer;
         this.processor = processor;
         this.taskExecutor = taskExecutor;
+        this.applicationProperties = applicationProperties;
     }
 
-    public Job nameJob() {
+    public Job buildJob() {
+        Step step =
+                stepBuilderFactory
+                        .get("name-job-step")
+                        .<Name, Name>chunk(50)
+                        .reader(
+                                new NameReader(
+                                        new ClassPathResource(applicationProperties.getBatchJobs().getNameFileDir()), gZipBufferedReader)
+                        ).processor(processor)
+                        .writer(writer)
+                        .faultTolerant()
+                        .skipLimit(100)
+                        .skip(Exception.class)
+                        .taskExecutor(taskExecutor)
+                        .build();
 
-        Step step = stepBuilderFactory.get("name-job-step")
-                .<Name, Name> chunk(25)
-                .reader(new NameReader(new ClassPathResource("data/name.basics.tsv.gz"), gZipBufferedReader))
-                .processor(processor)
-                .writer(writer)
-                .faultTolerant()
-                .skipLimit(100)
-                .skip(Exception.class)
-                .taskExecutor(taskExecutor)
-                .build();
-
-        return jobBuilderFactory.get("name-job")
+        return jobBuilderFactory
+                .get("name-job")
                 .incrementer(new RunIdIncrementer())
                 .listener(this)
                 .start(step)
