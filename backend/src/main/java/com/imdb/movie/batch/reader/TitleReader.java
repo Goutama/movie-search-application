@@ -32,5 +32,6 @@ public class TitleReader extends FlatFileItemReader<Title> {
         defaultLineMapper.setFieldSetMapper(new TitleMapper());
 
         setLineMapper(defaultLineMapper);
+        setSaveState(false);
     }
 }

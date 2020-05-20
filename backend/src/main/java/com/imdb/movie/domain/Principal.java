@@ -24,8 +24,8 @@ import javax.persistence.*;
 @Entity
 public class Principal {
     @Id
-    @SequenceGenerator(name="seq",sequenceName="principal_seq", allocationSize = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @SequenceGenerator(name="principal_seq_gen",sequenceName="principal_seq", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="principal_seq_gen")
     private Long id;
     private String tconst;
     private Long ordering;

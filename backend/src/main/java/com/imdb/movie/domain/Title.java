@@ -25,8 +25,8 @@ import java.util.Set;
 @Table(indexes = {@Index(name = "tconst_idx", columnList = "tconst")})
 public class Title {
     @Id
-    @SequenceGenerator(name="seq",sequenceName="title_seq", allocationSize = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @SequenceGenerator(name="title_seq_gen",sequenceName="title_seq", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="title_seq_gen")
     private Long id;
     private String tconst;
     private String titleType;

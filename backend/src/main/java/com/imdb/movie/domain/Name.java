@@ -49,8 +49,8 @@ import java.util.List;
 )
 public class Name {
     @Id
-    @SequenceGenerator(name = "seq", sequenceName = "name_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "name_seq_gen", sequenceName = "name_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "name_seq_gen")
     private Long id;
     private String nconst;
     private String primaryName;
