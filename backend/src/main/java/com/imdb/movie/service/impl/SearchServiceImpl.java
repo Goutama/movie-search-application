@@ -74,6 +74,7 @@ public class SearchServiceImpl implements SearchService {
 
         var builder =
                 TypeCastDTO.builder()
+                        .name(name)
                         .isTypeCasted(isTypeCasted)
                         .genres(typeCastedGenres);
         return builder.build();
@@ -108,14 +109,14 @@ public class SearchServiceImpl implements SearchService {
     @Override
     @Transactional(readOnly = true)
     public LinkLevelDTO findLinkLevel(final String sourceName, final String targetName) throws NameNotFoundException {
-        var sourceNameInfo = retrieveName(sourceName);
-        var targetNameInfo = retrieveName(targetName);
-        var linkLevel = nameRepository.findDegreesOfSeparation(sourceNameInfo.getNconst(), targetNameInfo.getNconst());
+        var sourceNameObj = retrieveName(sourceName);
+        var targetNameObj = retrieveName(targetName);
+        var distance = nameRepository.findDegreesOfSeparation(sourceNameObj.getNconst(), targetNameObj.getNconst());
         var builder =
                 LinkLevelDTO.builder()
                         .sourceName(sourceName)
                         .targetName(targetName)
-                        .linkLevel(linkLevel);
+                        .levelOfSeparation(distance);
         return builder.build();
     }
 

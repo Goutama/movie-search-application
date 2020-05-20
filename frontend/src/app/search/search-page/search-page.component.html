@@ -3,7 +3,7 @@
     <mat-card-title>Search requirement</mat-card-title>
     <mat-card-content>
       <li class="mat-form-field--inline">
-        <mat-radio-group class="radio-group" [(ngModel)]="requirement">
+        <mat-radio-group class="radio-group" [(ngModel)]="requirement" (change)="resetValues()">
           <mat-radio-button class="radio-button" *ngFor="let ref of requirements" value="{{ref}}">
             {{ref}}
           </mat-radio-button>
@@ -23,7 +23,7 @@
             <input [(ngModel)]="targetName" matInput>
           </label>
         </mat-form-field>
-        <button mat-raised-button (click)="search();errorMessage=''">Search</button>
+        <button mat-raised-button (click)="search(); errorMessage='';">Search</button>
       </li>
     </mat-card-content>
   </mat-card>
@@ -31,20 +31,23 @@
   <mat-card class="mat-card-result">
     <mat-card-title>Result</mat-card-title>
     <mat-card-content>
-      <div *ngIf="requirement == 'typecast' && typeCast">
-        The actor/actress {{sourceName}} is <span *ngIf="!typeCast.isTypeCasted"><b>not</b></span> type casted.
-        <p *ngIf="typeCast.isTypeCasted">Genres: {{typeCast.genres}}</p>
+      <div *ngIf="requirement == 'typecast' && typeCastInfo">
+        The actor/actress <b>{{sourceName}}</b> is <span *ngIf="!typeCastInfo.isTypeCasted"><b>not</b></span> type casted.
+        <p *ngIf="typeCastInfo.isTypeCasted">Genres: {{typeCastInfo.genres}}</p>
       </div>
-      <div *ngIf="requirement == 'coincidence'">
-        <span *ngIf="coincidenceMovieList?.length > 0; else noContent">
-        The common movies and tv shows acted by {{sourceName}} and {{targetName}} are,
+      <div *ngIf="requirement == 'coincidence' && coincidence">
+        <span *ngIf="coincidence.commonTitles?.length > 0">
+          The common movies and tv shows acted by <b>{{sourceName}}</b> and <b>{{targetName}}</b> are,
         <p>
-          {{coincidenceMovieList}}
+          {{coincidence.commonTitles}}
         </p>
         </span>
-        <ng-template #noContent>
-          No common movies or tv shows found for {{sourceName}} and {{targetName}}.
-        </ng-template>
+        <span *ngIf="coincidence.commonTitles?.length == 0">
+          No common movies or tv shows found for <b>{{sourceName}}</b> and <b>{{targetName}}</b>.
+        </span>
+      </div>
+      <div *ngIf="requirement == 'degree of separation' && linkLevel">
+        The degrees of separation between <b>{{sourceName}}</b> and <b>{{targetName}}</b> is <b>{{linkLevel.levelOfSeparation}}</b>
       </div>
     </mat-card-content>
   </mat-card>

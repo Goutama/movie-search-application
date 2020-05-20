@@ -45,7 +45,7 @@ public class SearchResource {
      */
     @ApiOperation("End point to get typecasting info for the input actor/actress")
     @GetMapping("/typecast")
-    public TypeCastDTO findTypeCastInfo(@RequestParam(value = "sourceName") final String name) throws NameNotFoundException {
+    public TypeCastDTO findTypeCastInfo(@RequestParam(value = "name") final String name) throws NameNotFoundException {
         log.info("REST request to get typecast detail for actor/actress {}", name);
         return searchService.findTypeCastInfo(name);
     }

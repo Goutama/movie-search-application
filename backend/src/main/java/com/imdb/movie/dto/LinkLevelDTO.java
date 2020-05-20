@@ -15,5 +15,5 @@ import lombok.Value;
 public class LinkLevelDTO {
     String sourceName;
     String targetName;
-    Short linkLevel;
+    Short levelOfSeparation;
 }

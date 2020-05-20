@@ -3,12 +3,21 @@ export class SearchInput {
   targetName: string;
 }
 
-export class TypeCast {
+export class TypeCastInfo {
+  name: string;
   isTypeCasted: boolean;
   genres: any;
 }
 
 export class Coincidence {
-  isTypeCasted: boolean;
-  genres: any;
+  sourceName: string;
+  targetName: string;
+  commonTitles: [];
+}
+
+
+export class LinkLevel {
+  sourceName: string;
+  targetName: string;
+  levelOfSeparation: number;
 }

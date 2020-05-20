@@ -1,8 +1,6 @@
 package com.imdb.movie.domain;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -41,6 +39,8 @@ import java.util.List;
         })
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = {"nconst"})
 @Entity
 @Table(indexes = {

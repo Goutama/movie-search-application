@@ -1,8 +1,6 @@
 package com.imdb.movie.domain;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +11,8 @@ import javax.persistence.*;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = {"tconst", "ordering"})
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"tconst", "ordering"}

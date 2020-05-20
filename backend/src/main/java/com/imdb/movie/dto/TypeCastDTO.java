@@ -16,6 +16,7 @@ import java.util.List;
 @Builder
 @JsonInclude(Include.NON_NULL)
 public class TypeCastDTO {
+    String name;
     Boolean isTypeCasted;
     List<String> genres;
 }
