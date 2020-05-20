@@ -42,7 +42,7 @@ public class SearchServiceImplTest {
     }
 
     @Test
-    public void searchTypecast_ValidInput_ShouldReturnTypeCastTrue() throws NameNotFoundException {
+    public void findTypecastInfo_ValidInput_ShouldReturnTypeCastTrue() throws NameNotFoundException {
         Name name = Name.builder()
                 .primaryName("Pappan Naripatta")
                 .build();
@@ -52,14 +52,14 @@ public class SearchServiceImplTest {
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.of(name));
         Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Set.of(title));
 
-        TypeCastDTO typeCastDTO = searchService.search("Pappan Naripatta");
+        TypeCastDTO typeCastDTO = searchService.findTypeCastInfo("Pappan Naripatta");
 
         Assert.assertEquals(true, typeCastDTO.getIsTypeCasted());
         Assert.assertEquals("Action", typeCastDTO.getGenres().get(0));
     }
 
     @Test
-    public void searchTypecast_ValidInput_ShouldReturnTypeCastFalse() throws NameNotFoundException {
+    public void findTypecastInfo_ValidInput_ShouldReturnTypeCastFalse() throws NameNotFoundException {
         Name name = Name.builder()
                 .primaryName("Pappan Naripatta")
                 .build();
@@ -78,7 +78,7 @@ public class SearchServiceImplTest {
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.of(name));
         Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Set.of(titleOne, titleTwo, titleThree));
 
-        TypeCastDTO typeCastDTO = searchService.search("Pappan Naripatta");
+        TypeCastDTO typeCastDTO = searchService.findTypeCastInfo("Pappan Naripatta");
 
         Assert.assertEquals(false, typeCastDTO.getIsTypeCasted());
         Assert.assertTrue(typeCastDTO.getGenres().isEmpty());
@@ -87,11 +87,11 @@ public class SearchServiceImplTest {
     @Test(expected = NameNotFoundException.class)
     public void findName_InValidInput_ShouldThrowException() throws NameNotFoundException {
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.empty());
-        searchService.search("Pappan Naripatta");
+        searchService.findTypeCastInfo("Pappan Naripatta");
     }
 
     @Test
-    public void searchCoincidence_ValidInput_ShouldReturnMovie() throws NameNotFoundException {
+    public void findCoincidence_ValidInput_ShouldReturnMovie() throws NameNotFoundException {
         Name nameOne = Name.builder()
                 .nconst("n1")
                 .primaryName("Pappan Naripatta")
@@ -110,13 +110,13 @@ public class SearchServiceImplTest {
         Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Set.of(title));
         Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Set.of(title));
 
-        Set<String> moviesList = searchService.search("Pappan Naripatta", "Maik Jain");
+        var coincidenceDTO = searchService.findCoincidence("Pappan Naripatta", "Maik Jain");
 
-        Assert.assertThat(moviesList, Matchers.hasItem("Carmencita"));
+        Assert.assertThat(coincidenceDTO.getCommonTitles(), Matchers.hasItem("Carmencita"));
     }
 
     @Test
-    public void searchCoincidence_ValidInput_ShouldNotReturnMovies() throws NameNotFoundException {
+    public void findCoincidence_ValidInput_ShouldNotReturnMovies() throws NameNotFoundException {
         Name nameOne = Name.builder()
                 .nconst("n1")
                 .primaryName("Pappan Naripatta")
@@ -139,8 +139,8 @@ public class SearchServiceImplTest {
         Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Optional.of(nameTwo));
         Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Set.of(titleOne));
         Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Set.of(titleTwo));
-        Set<String> moviesList = searchService.search("Pappan Naripatta", "Maik Jain");
+        var coincidenceDTO = searchService.findCoincidence("Pappan Naripatta", "Maik Jain");
 
-        Assert.assertTrue(moviesList.isEmpty());
+        Assert.assertTrue(coincidenceDTO.getCommonTitles().isEmpty());
     }
 }

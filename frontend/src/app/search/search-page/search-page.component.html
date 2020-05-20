@@ -14,13 +14,13 @@
         <mat-form-field appearance="outline">
           <mat-label>First actor/actress</mat-label>
           <label>
-            <input [(ngModel)]="firstName" matInput>
+            <input [(ngModel)]="sourceName" matInput>
           </label>
         </mat-form-field>
         <mat-form-field appearance="outline" *ngIf="requirement !== 'typecast'">
           <mat-label>Second actor/actress</mat-label>
           <label>
-            <input [(ngModel)]="secondName" matInput>
+            <input [(ngModel)]="targetName" matInput>
           </label>
         </mat-form-field>
         <button mat-raised-button (click)="search();errorMessage=''">Search</button>
@@ -32,18 +32,18 @@
     <mat-card-title>Result</mat-card-title>
     <mat-card-content>
       <div *ngIf="requirement == 'typecast' && typeCast">
-        The actor/actress {{firstName}} is <span *ngIf="!typeCast.isTypeCasted"><b>not</b></span> type casted.
+        The actor/actress {{sourceName}} is <span *ngIf="!typeCast.isTypeCasted"><b>not</b></span> type casted.
         <p *ngIf="typeCast.isTypeCasted">Genres: {{typeCast.genres}}</p>
       </div>
       <div *ngIf="requirement == 'coincidence'">
         <span *ngIf="coincidenceMovieList?.length > 0; else noContent">
-        The common movies and tv shows acted by {{firstName}} and {{secondName}} are,
+        The common movies and tv shows acted by {{sourceName}} and {{targetName}} are,
         <p>
           {{coincidenceMovieList}}
         </p>
         </span>
         <ng-template #noContent>
-          No common movies or tv shows found for {{firstName}} and {{secondName}}.
+          No common movies or tv shows found for {{sourceName}} and {{targetName}}.
         </ng-template>
       </div>
     </mat-card-content>

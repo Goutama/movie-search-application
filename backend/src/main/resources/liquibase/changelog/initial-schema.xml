@@ -24,7 +24,7 @@
             create table name_primary_professions (name_id int8 not null, primary_professions varchar(255));
 
             -- create principal table
-            create table principal (id int8 not null, category varchar(255), characters varchar(255), job varchar(255), nconst varchar(255), ordering int8, tconst varchar(255), primary key (id));
+            create table principal (id int8 not null, category varchar(255), characters text, job varchar(255), nconst varchar(255), ordering int8, tconst varchar(255), primary key (id));
 
             -- create index for title table
             create index tconst_idx on title (tconst);

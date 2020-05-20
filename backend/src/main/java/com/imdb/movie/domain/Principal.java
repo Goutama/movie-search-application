@@ -13,7 +13,7 @@ import javax.persistence.*;
  */
 @Data
 @Builder
-@EqualsAndHashCode(of = {"id","tconst", "ordering"})
+@EqualsAndHashCode(of = {"tconst", "ordering"})
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"tconst", "ordering"}
         )},
@@ -29,10 +29,10 @@ public class Principal {
     private Long id;
     private String tconst;
     private Long ordering;
-    // index
     private String nconst;
     private String category;
     private String job;
+    @Column(columnDefinition = "text")
     private String characters;
 
 }

@@ -1,9 +1,14 @@
 export class SearchInput {
-  firstName: string;
-  secondName: string;
+  sourceName: string;
+  targetName: string;
 }
 
 export class TypeCast {
+  isTypeCasted: boolean;
+  genres: any;
+}
+
+export class Coincidence {
   isTypeCasted: boolean;
   genres: any;
 }

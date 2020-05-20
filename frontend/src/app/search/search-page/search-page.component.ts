@@ -9,8 +9,8 @@ import {SearchInput, TypeCast} from './search-page.model';
 })
 export class SearchPageComponent implements OnInit {
 
-  firstName: string;
-  secondName: string;
+  sourceName: string;
+  targetName: string;
   requirement = 'typecast';
   requirements: string[] = ['typecast', 'coincidence', 'degree of separation'];
   errorMessage: string;
@@ -25,7 +25,7 @@ export class SearchPageComponent implements OnInit {
   search() {
     if (this.requirement === 'typecast') {
       this.searchPageService.getTypecast(
-        {firstName: this.firstName}
+        {sourceName: this.sourceName}
         ).subscribe(
         (result) => {
           this.typeCast = result.body;
@@ -37,8 +37,8 @@ export class SearchPageComponent implements OnInit {
     } else if (this.requirement === 'coincidence') {
       this.searchPageService.getCoincidence(
         {
-          firstName: this.firstName,
-          secondName: this.secondName
+          sourceName: this.sourceName,
+          targetName: this.targetName
         } as SearchInput
       ).subscribe(
         (result) => {

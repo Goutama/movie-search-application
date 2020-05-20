@@ -16,4 +16,5 @@ import java.util.Optional;
 public interface NameRepository extends JpaRepository<Name, Long> {
     Optional<Name> findByNconst(String nconst);
     Optional<Name> findByPrimaryName(String name);
+    Short findDegreesOfSeparation(String sourceNameId, String targetNameId);
 }

@@ -2,6 +2,8 @@ package com.imdb.movie.service.impl;
 
 import com.imdb.movie.domain.Name;
 import com.imdb.movie.domain.Title;
+import com.imdb.movie.dto.CoincidenceDTO;
+import com.imdb.movie.dto.LinkLevelDTO;
 import com.imdb.movie.dto.TypeCastDTO;
 import com.imdb.movie.exception.NameNotFoundException;
 import com.imdb.movie.repository.NameRepository;
@@ -46,11 +48,11 @@ public class SearchServiceImpl implements SearchService {
      */
     @Override
     @Transactional(readOnly = true)
-    public TypeCastDTO search(final String name) throws NameNotFoundException {
+    public TypeCastDTO findTypeCastInfo(final String name) throws NameNotFoundException {
 
         var isTypeCasted = false;
 
-        Set<Title> titles = retrieveTitlesForName(name);
+        var titles = retrieveTitlesForName(name);
 
         var genresGroupedByCount =
                 titles.stream()
@@ -77,13 +79,25 @@ public class SearchServiceImpl implements SearchService {
         return builder.build();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public CoincidenceDTO findCoincidence(final String sourceName, final String targetName) throws NameNotFoundException {
+        var titlesOfSourceName = retrieveTitlesForName(sourceName);
+        var titlesOfTargetName = retrieveTitlesForName(targetName);
+        Set<Title> result = new HashSet<>(titlesOfSourceName);
+        result.retainAll(titlesOfTargetName);
 
-    private Set<Title> retrieveTitlesForName(String name) throws NameNotFoundException {
-        Name nameFromDb = nameRepository.findByPrimaryName(name)
-                .orElseThrow(() ->
-                        new NameNotFoundException("The actor/actress with name " + name + " not found")
-                );
-        return titleRepository.findTitlesByNconsts(nameFromDb.getNconst());
+        var builder =
+                CoincidenceDTO.builder()
+                        .sourceName(sourceName)
+                        .targetName(targetName)
+                        .commonTitles(result.stream().map(Title::getPrimaryTitle).collect(Collectors.toSet()));
+        return builder.build();
     }
 
     /**
@@ -93,11 +107,27 @@ public class SearchServiceImpl implements SearchService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Set<String> search(final String firstName, final String secondName) throws NameNotFoundException {
-        var titlesOfFirstName = retrieveTitlesForName(firstName);
-        var titlesOfSecondName = retrieveTitlesForName(secondName);
-        Set<Title> result = new HashSet<>(titlesOfFirstName);
-        result.retainAll(titlesOfSecondName);
-        return result.stream().map(Title::getPrimaryTitle).collect(Collectors.toSet());
+    public LinkLevelDTO findLinkLevel(final String sourceName, final String targetName) throws NameNotFoundException {
+        var sourceNameInfo = retrieveName(sourceName);
+        var targetNameInfo = retrieveName(targetName);
+        var linkLevel = nameRepository.findDegreesOfSeparation(sourceNameInfo.getNconst(), targetNameInfo.getNconst());
+        var builder =
+                LinkLevelDTO.builder()
+                        .sourceName(sourceName)
+                        .targetName(targetName)
+                        .linkLevel(linkLevel);
+        return builder.build();
+    }
+
+    private Set<Title> retrieveTitlesForName(String name) throws NameNotFoundException {
+        Name nameFromDb = retrieveName(name);
+        return titleRepository.findTitlesByNconsts(nameFromDb.getNconst());
+    }
+
+    private Name retrieveName(String name) throws NameNotFoundException {
+        return nameRepository.findByPrimaryName(name)
+                .orElseThrow(() ->
+                        new NameNotFoundException("The actor/actress with name " + name + " not found")
+                );
     }
 }

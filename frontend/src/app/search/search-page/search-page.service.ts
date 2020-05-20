@@ -14,7 +14,7 @@ export class SearchPageService {
   getTypecast(searchInput): Observable<HttpResponse<TypeCast>> {
     return this.http.get<TypeCast>(`/api/search/typecast`, {
       params: {
-        firstName: searchInput.firstName
+        sourceName: searchInput.sourceName
       },
       observe: 'response'
     });
@@ -23,8 +23,8 @@ export class SearchPageService {
   getCoincidence(searchInput): Observable<any> {
     return this.http.get<TypeCast>(`/api/search/coincidence`, {
       params: {
-        firstName: searchInput.firstName,
-        secondName: searchInput.secondName
+        sourceName: searchInput.sourceName,
+        targetName: searchInput.targetName
       },
       observe: 'response'
     });

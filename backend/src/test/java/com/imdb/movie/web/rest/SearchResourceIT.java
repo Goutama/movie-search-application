@@ -31,7 +31,7 @@ public class SearchResourceIT {
     private MockMvc movieMockMvc;
 
     @Test
-    public void searchTypecast_ValidRequest_ShouldReturnResult() throws Exception {
+    public void findTypecastInfo_ValidRequest_ShouldReturnResult() throws Exception {
 
         movieMockMvc.perform(get("/search/typecast").param("firstName", "Pappan Naripatta"))
                 .andExpect(status().isOk())
@@ -41,13 +41,13 @@ public class SearchResourceIT {
     }
 
     @Test
-    public void searchCoincidence_ValidRequest_ShouldReturnResult() throws Exception {
+    public void findCoincidence_ValidRequest_ShouldReturnResult() throws Exception {
 
         movieMockMvc.perform(get("/search/coincidence")
                 .param("firstName", "Pappan Naripatta")
                 .param("secondName", "Mikio Narita"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$", hasItem("Carmencita")));
+                .andExpect(jsonPath("$.commonTitles[*]", hasSize(1)))
+                .andExpect(jsonPath("$.commonTitles[*]", hasItem("Carmencita")));
     }
 }
