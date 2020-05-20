@@ -26,7 +26,7 @@ values (
     'Mikio Narita')
 ;
 
-insert into basic (
+insert into title (
     id,
     end_year,
     is_adult,
@@ -84,8 +84,8 @@ values (
     'tt0000001')
 ;
 
-insert into basic_genres (
-    basic_id,
+insert into title_genres (
+    title_id,
     genres)
 values (
     1,

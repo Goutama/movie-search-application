@@ -1,5 +1,5 @@
-delete from basic_genres;
+delete from title_genres;
 delete from aka;
 delete from name;
-delete from basic;
+delete from title;
 delete from principal;

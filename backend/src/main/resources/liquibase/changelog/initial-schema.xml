@@ -10,19 +10,13 @@
         <sql stripComments="true">
             <comment>Initial application schema</comment>
             -- create sequence
-            create sequence aka_seq start 1 increment 1;
-            create sequence basic_seq start 1 increment 1;
+            create sequence title_seq start 1 increment 1;
             create sequence name_seq start 1 increment 1;
             create sequence principal_seq start 1 increment 1;
 
-            -- create aka table
-            create table aka (id int8 not null, is_original_title boolean not null, language varchar(255), ordering int8, region varchar(255), title varchar(255), title_id varchar(255), primary key (id));
-            create table aka_attributes (aka_id int8 not null, attributes varchar(255));
-            create table aka_types (aka_id int8 not null, types varchar(255));
-
-            -- create basic table
-            create table basic (id int8 not null, end_year int4, is_adult boolean, original_title varchar(255), primary_title varchar(255), runtime_minutes int4, start_year int4, tconst varchar(255), title_type varchar(255), primary key (id));
-            create table basic_genres (basic_id int8 not null, genres varchar(255));
+            -- create title table
+            create table title (id int8 not null, end_year int4, is_adult boolean, original_title varchar(255), primary_title varchar(255), runtime_minutes int4, start_year int4, tconst varchar(255), title_type varchar(255), primary key (id));
+            create table title_genres (title_id int8 not null, genres varchar(255));
 
             -- create name table
             create table name (id int8 not null, birth_year int4, death_year int4, nconst varchar(255), primary_name varchar(255), primary key (id));
@@ -32,12 +26,8 @@
             -- create principal table
             create table principal (id int8 not null, category varchar(255), characters varchar(255), job varchar(255), nconst varchar(255), ordering int8, tconst varchar(255), primary key (id));
 
-            -- create index and unique constraints for aka table
-            create index title_id_idx on aka (title_id);
-            alter table aka add constraint UK34jaito42totulfrm1yjfbsa9 unique (title_id, ordering);
-
-            -- create index for basic table
-            create index tconst_idx on basic (tconst);
+            -- create index for title table
+            create index tconst_idx on title (tconst);
 
             -- create index for name table
             create index nconst_idx on name (nconst);
@@ -49,9 +39,7 @@
             alter table principal add constraint UKfs1g6f11xwpjmn8s98bg6d9pe unique (tconst, ordering);
 
             -- add foreign key references
-            alter table aka_attributes add constraint FKr6dwgindef9iyuywtiluvscvy foreign key (aka_id) references aka;
-            alter table aka_types add constraint FK1jcowckuwigriq9b8yejq9gyk foreign key (aka_id) references aka;
-            alter table basic_genres add constraint FKt79mj0nk0bhfj6vsgb4gxi1eb foreign key (basic_id) references basic;
+            alter table title_genres add constraint FKt79mj0nk0bhfj6vsgb4gxi1eb foreign key (title_id) references title;
             alter table name_known_for_titles add constraint FK954avxp6gail4g8gejrc4e5t9 foreign key (name_id) references name;
             alter table name_primary_professions add constraint FK43gt4gseq02vqi1x79h8vid4j foreign key (name_id) references name;
         </sql>

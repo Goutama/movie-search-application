@@ -1,8 +1,8 @@
 package com.imdb.movie.web.rest;
 
-import com.imdb.movie.batch.job.BasicJob;
 import com.imdb.movie.batch.job.NameJob;
 import com.imdb.movie.batch.job.PrincipalJob;
+import com.imdb.movie.batch.job.TitleJob;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -29,15 +29,15 @@ public class DataUploadResource {
 
     private final NameJob nameJob;
 
-    private final BasicJob basicJob;
+    private final TitleJob titleJob;
 
     private final PrincipalJob principalJob;
 
-    public DataUploadResource(NameJob nameJob, BasicJob basicJob, PrincipalJob principalJob,
+    public DataUploadResource(NameJob nameJob, TitleJob titleJob, PrincipalJob principalJob,
                               @Qualifier("concurrentJobLauncher") JobLauncher jobLauncher) {
         this.jobLauncher = jobLauncher;
         this.nameJob = nameJob;
-        this.basicJob = basicJob;
+        this.titleJob = titleJob;
         this.principalJob = principalJob;
     }
 
@@ -57,7 +57,7 @@ public class DataUploadResource {
                         .toJobParameters();
 
         jobLauncher.run(nameJob.nameJob(), jobParameters);
-        jobLauncher.run(basicJob.basicJob(), jobParameters);
+        jobLauncher.run(titleJob.titleJob(), jobParameters);
         jobLauncher.run(principalJob.principalJob(), jobParameters);
 
         return "Batch jobs are invoked";

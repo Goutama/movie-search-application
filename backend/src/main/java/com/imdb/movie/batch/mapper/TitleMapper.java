@@ -1,6 +1,6 @@
 package com.imdb.movie.batch.mapper;
 
-import com.imdb.movie.domain.Basic;
+import com.imdb.movie.domain.Title;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 
@@ -10,15 +10,15 @@ import static com.imdb.movie.batch.util.FieldUtil.replaceWithNull;
 import static java.util.Objects.nonNull;
 
 /**
- * A field mapper for Basic entity.
+ * A field mapper for Title entity.
  *
  * @author gbhat on 17/05/2020.
  */
-public class BasicMapper implements FieldSetMapper<Basic> {
+public class TitleMapper implements FieldSetMapper<Title> {
 
     @Override
-    public Basic mapFieldSet(FieldSet fieldSet) {
-        Basic.BasicBuilder builder = Basic.builder();
+    public Title mapFieldSet(FieldSet fieldSet) {
+        Title.TitleBuilder builder = Title.builder();
         builder.tconst(fieldSet.readString("tconst"));
         builder.titleType(replaceWithNull(fieldSet, "titleType"));
         builder.primaryTitle(replaceWithNull(fieldSet, "primaryTitle"));

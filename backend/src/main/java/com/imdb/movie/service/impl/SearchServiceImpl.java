@@ -1,11 +1,11 @@
 package com.imdb.movie.service.impl;
 
-import com.imdb.movie.domain.Basic;
 import com.imdb.movie.domain.Name;
+import com.imdb.movie.domain.Title;
 import com.imdb.movie.dto.TypeCastDTO;
 import com.imdb.movie.exception.NameNotFoundException;
-import com.imdb.movie.repository.BasicRepository;
 import com.imdb.movie.repository.NameRepository;
+import com.imdb.movie.repository.TitleRepository;
 import com.imdb.movie.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,17 +28,17 @@ import java.util.stream.Collectors;
 public class SearchServiceImpl implements SearchService {
 
     private final NameRepository nameRepository;
-    private final BasicRepository basicRepository;
+    private final TitleRepository titleRepository;
 
     /**
      * The default constructor.
      *
      * @param nameRepository  the name repository.
-     * @param basicRepository the basic repository.
+     * @param titleRepository the title repository.
      */
-    public SearchServiceImpl(NameRepository nameRepository, BasicRepository basicRepository) {
+    public SearchServiceImpl(NameRepository nameRepository, TitleRepository titleRepository) {
         this.nameRepository = nameRepository;
-        this.basicRepository = basicRepository;
+        this.titleRepository = titleRepository;
     }
 
     /**
@@ -50,11 +50,11 @@ public class SearchServiceImpl implements SearchService {
 
         var isTypeCasted = false;
 
-        Set<Basic> titles = retrieveTitlesForName(name);
+        Set<Title> titles = retrieveTitlesForName(name);
 
         var genresGroupedByCount =
                 titles.stream()
-                        .map(Basic::getGenres)
+                        .map(Title::getGenres)
                         .flatMap(Collection::stream)
                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
@@ -78,12 +78,12 @@ public class SearchServiceImpl implements SearchService {
     }
 
 
-    private Set<Basic> retrieveTitlesForName(String name) throws NameNotFoundException {
+    private Set<Title> retrieveTitlesForName(String name) throws NameNotFoundException {
         Name nameFromDb = nameRepository.findByPrimaryName(name)
                 .orElseThrow(() ->
                         new NameNotFoundException("The actor/actress with name " + name + " not found")
                 );
-        return basicRepository.findBasicsByNconsts(nameFromDb.getNconst());
+        return titleRepository.findTitlesByNconsts(nameFromDb.getNconst());
     }
 
     /**
@@ -96,8 +96,8 @@ public class SearchServiceImpl implements SearchService {
     public Set<String> search(final String firstName, final String secondName) throws NameNotFoundException {
         var titlesOfFirstName = retrieveTitlesForName(firstName);
         var titlesOfSecondName = retrieveTitlesForName(secondName);
-        Set<Basic> result = new HashSet<>(titlesOfFirstName);
+        Set<Title> result = new HashSet<>(titlesOfFirstName);
         result.retainAll(titlesOfSecondName);
-        return result.stream().map(Basic::getPrimaryTitle).collect(Collectors.toSet());
+        return result.stream().map(Title::getPrimaryTitle).collect(Collectors.toSet());
     }
 }

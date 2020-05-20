@@ -8,24 +8,24 @@ import javax.persistence.*;
 import java.util.Set;
 
 /**
- * A Basic entity.
+ * A Title entity.
  *
  * @author gbhat on 16/05/2020.
  */
 @NamedQueries(
         value = {
                 @NamedQuery(
-                        name = "Basic.findBasicsByNconsts",
-                        query = "select b from Basic b inner join Principal p on b.tconst = p.tconst and p.nconst in :nconst")
+                        name = "Title.findTitlesByNconsts",
+                        query = "select b from Title b inner join Principal p on b.tconst = p.tconst and p.nconst in :nconst")
         })
 @Data
 @Builder
 @EqualsAndHashCode(of = {"tconst"})
 @Entity
 @Table(indexes = {@Index(name = "tconst_idx", columnList = "tconst")})
-public class Basic {
+public class Title {
     @Id
-    @SequenceGenerator(name="seq",sequenceName="basic_seq", allocationSize = 1)
+    @SequenceGenerator(name="seq",sequenceName="title_seq", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     private Long id;
     private String tconst;

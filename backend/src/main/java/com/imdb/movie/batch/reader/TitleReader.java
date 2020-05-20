@@ -1,7 +1,7 @@
 package com.imdb.movie.batch.reader;
 
-import com.imdb.movie.batch.mapper.BasicMapper;
-import com.imdb.movie.domain.Basic;
+import com.imdb.movie.batch.mapper.TitleMapper;
+import com.imdb.movie.domain.Title;
 import org.springframework.batch.item.file.BufferedReaderFactory;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
@@ -12,13 +12,13 @@ import static org.springframework.batch.item.file.transform.DelimitedLineTokeniz
 
 
 /**
- * A item reader for Basic entity.
+ * A item reader for Title entity.
  *
  * @author gbhat on 16/05/2020.
  */
-public class BasicReader extends FlatFileItemReader<Basic> {
+public class TitleReader extends FlatFileItemReader<Title> {
 
-    public BasicReader(Resource resource, BufferedReaderFactory bufferedReaderFactory) {
+    public TitleReader(Resource resource, BufferedReaderFactory bufferedReaderFactory) {
         super();
         setResource(resource);
         setBufferedReaderFactory(bufferedReaderFactory);
@@ -27,9 +27,9 @@ public class BasicReader extends FlatFileItemReader<Basic> {
         lineTokenizer.setNames("tconst", "titleType", "primaryTitle", "originalTitle", "isAdult", "startYear", "endYear", "runtimeMinutes", "genres");
         lineTokenizer.setDelimiter(DELIMITER_TAB);
 
-        DefaultLineMapper<Basic> defaultLineMapper = new DefaultLineMapper<>();
+        DefaultLineMapper<Title> defaultLineMapper = new DefaultLineMapper<>();
         defaultLineMapper.setLineTokenizer(lineTokenizer);
-        defaultLineMapper.setFieldSetMapper(new BasicMapper());
+        defaultLineMapper.setFieldSetMapper(new TitleMapper());
 
         setLineMapper(defaultLineMapper);
     }

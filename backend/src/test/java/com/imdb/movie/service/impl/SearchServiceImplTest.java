@@ -1,11 +1,11 @@
 package com.imdb.movie.service.impl;
 
-import com.imdb.movie.domain.Basic;
 import com.imdb.movie.domain.Name;
+import com.imdb.movie.domain.Title;
 import com.imdb.movie.dto.TypeCastDTO;
 import com.imdb.movie.exception.NameNotFoundException;
-import com.imdb.movie.repository.BasicRepository;
 import com.imdb.movie.repository.NameRepository;
+import com.imdb.movie.repository.TitleRepository;
 import com.imdb.movie.service.SearchService;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -31,14 +31,14 @@ public class SearchServiceImplTest {
     private NameRepository nameRepository;
 
     @Mock
-    private BasicRepository basicRepository;
+    private TitleRepository titleRepository;
 
     private SearchService searchService;
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        searchService = new SearchServiceImpl(nameRepository, basicRepository);
+        searchService = new SearchServiceImpl(nameRepository, titleRepository);
     }
 
     @Test
@@ -46,11 +46,11 @@ public class SearchServiceImplTest {
         Name name = Name.builder()
                 .primaryName("Pappan Naripatta")
                 .build();
-        Basic basic = Basic.builder()
+        Title title = Title.builder()
                 .genres(Set.of("Action"))
                 .build();
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.of(name));
-        Mockito.when(basicRepository.findBasicsByNconsts(any())).thenReturn(Set.of(basic));
+        Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Set.of(title));
 
         TypeCastDTO typeCastDTO = searchService.search("Pappan Naripatta");
 
@@ -63,20 +63,20 @@ public class SearchServiceImplTest {
         Name name = Name.builder()
                 .primaryName("Pappan Naripatta")
                 .build();
-        Basic basicOne = Basic.builder()
+        Title titleOne = Title.builder()
                 .tconst("t1")
                 .genres(Set.of("Action"))
                 .build();
-        Basic basicTwo = Basic.builder()
+        Title titleTwo = Title.builder()
                 .tconst("t2")
                 .genres(Set.of("Comedy"))
                 .build();
-        Basic basicThree = Basic.builder()
+        Title titleThree = Title.builder()
                 .tconst("t3")
                 .genres(Set.of("Thriller"))
                 .build();
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.of(name));
-        Mockito.when(basicRepository.findBasicsByNconsts(any())).thenReturn(Set.of(basicOne, basicTwo, basicThree));
+        Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Set.of(titleOne, titleTwo, titleThree));
 
         TypeCastDTO typeCastDTO = searchService.search("Pappan Naripatta");
 
@@ -100,15 +100,15 @@ public class SearchServiceImplTest {
                 .nconst("n2")
                 .primaryName("Maik Jain")
                 .build();
-        Basic basic = Basic.builder()
+        Title title = Title.builder()
                 .tconst("t1")
                 .primaryTitle("Carmencita")
                 .genres(Set.of("Action"))
                 .build();
         Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Optional.of(nameOne));
         Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Optional.of(nameTwo));
-        Mockito.when(basicRepository.findBasicsByNconsts("n1")).thenReturn(Set.of(basic));
-        Mockito.when(basicRepository.findBasicsByNconsts("n2")).thenReturn(Set.of(basic));
+        Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Set.of(title));
+        Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Set.of(title));
 
         Set<String> moviesList = searchService.search("Pappan Naripatta", "Maik Jain");
 
@@ -125,20 +125,20 @@ public class SearchServiceImplTest {
                 .nconst("n2")
                 .primaryName("Maik Jain")
                 .build();
-        Basic basicOne = Basic.builder()
+        Title titleOne = Title.builder()
                 .tconst("t1")
                 .primaryTitle("Carmencita")
                 .genres(Set.of("Action"))
                 .build();
-        Basic basicTwo = Basic.builder()
+        Title titleTwo = Title.builder()
                 .tconst("t2")
                 .primaryTitle("TryThisOut")
                 .genres(Set.of("Thriller"))
                 .build();
         Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Optional.of(nameOne));
         Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Optional.of(nameTwo));
-        Mockito.when(basicRepository.findBasicsByNconsts("n1")).thenReturn(Set.of(basicOne));
-        Mockito.when(basicRepository.findBasicsByNconsts("n2")).thenReturn(Set.of(basicTwo));
+        Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Set.of(titleOne));
+        Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Set.of(titleTwo));
         Set<String> moviesList = searchService.search("Pappan Naripatta", "Maik Jain");
 
         Assert.assertTrue(moviesList.isEmpty());

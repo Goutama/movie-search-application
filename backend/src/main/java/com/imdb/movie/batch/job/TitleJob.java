@@ -1,10 +1,10 @@
 package com.imdb.movie.batch.job;
 
 import com.imdb.movie.batch.converter.GzipBufferedReader;
-import com.imdb.movie.batch.processor.BasicProcessor;
-import com.imdb.movie.batch.reader.BasicReader;
-import com.imdb.movie.batch.writer.BasicWriter;
-import com.imdb.movie.domain.Basic;
+import com.imdb.movie.batch.processor.TitleProcessor;
+import com.imdb.movie.batch.reader.TitleReader;
+import com.imdb.movie.batch.writer.TitleWriter;
+import com.imdb.movie.domain.Title;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.Job;
@@ -20,13 +20,13 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 /**
- * A job to upload Basic details.
+ * A job to upload Title details.
  *
  * @author gbhat on 16/05/2020.
  */
 @Component
 @Slf4j
-public class BasicJob extends JobExecutionListenerSupport {
+public class TitleJob extends JobExecutionListenerSupport {
 
     private final JobBuilderFactory jobBuilderFactory;
 
@@ -34,17 +34,17 @@ public class BasicJob extends JobExecutionListenerSupport {
 
     private final GzipBufferedReader gZipBufferedReader;
 
-    private final BasicWriter writer;
+    private final TitleWriter writer;
 
-    private final BasicProcessor processor;
+    private final TitleProcessor processor;
 
     private final TaskExecutor taskExecutor;
 
-    public BasicJob(JobBuilderFactory jobBuilderFactory,
+    public TitleJob(JobBuilderFactory jobBuilderFactory,
                     StepBuilderFactory stepBuilderFactory,
                     GzipBufferedReader gZipBufferedReader,
-                    BasicWriter writer,
-                    BasicProcessor processor,
+                    TitleWriter writer,
+                    TitleProcessor processor,
                     @Qualifier("taskExecutor") TaskExecutor taskExecutor) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
@@ -54,11 +54,11 @@ public class BasicJob extends JobExecutionListenerSupport {
         this.taskExecutor = taskExecutor;
     }
 
-    public Job basicJob() {
+    public Job titleJob() {
 
-        Step step = stepBuilderFactory.get("basic-job-step")
-                .<Basic, Basic> chunk(25)
-                .reader(new BasicReader(new ClassPathResource("data/title.basics.tsv.gz"), gZipBufferedReader))
+        Step step = stepBuilderFactory.get("title-job-step")
+                .<Title, Title> chunk(25)
+                .reader(new TitleReader(new ClassPathResource("data/title.basics.tsv.gz"), gZipBufferedReader))
                 .processor(processor)
                 .writer(writer)
                 .faultTolerant()
@@ -67,7 +67,7 @@ public class BasicJob extends JobExecutionListenerSupport {
                 .taskExecutor(taskExecutor)
                 .build();
 
-        return jobBuilderFactory.get("basic-job")
+        return jobBuilderFactory.get("title-job")
                 .incrementer(new RunIdIncrementer())
                 .listener(this)
                 .start(step)
@@ -77,7 +77,7 @@ public class BasicJob extends JobExecutionListenerSupport {
     @Override
     public void afterJob(JobExecution jobExecution) {
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-            log.info("Batch job completed for Basic");
+            log.info("Batch job completed for Title");
         }
     }
 
