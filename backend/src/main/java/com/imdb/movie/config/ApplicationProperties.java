@@ -31,7 +31,7 @@ public class ApplicationProperties {
         @NotNull
         private String principalFileDir;
         @NotNull
-        private String tileFileDir;
+        private String titleFileDir;
     }
 
 }

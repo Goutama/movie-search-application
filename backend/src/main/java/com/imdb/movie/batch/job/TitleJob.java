@@ -60,7 +60,7 @@ public class TitleJob extends JobExecutionListenerSupport {
                         .<Title, Title>chunk(50)
                         .reader(
                                 new TitleReader(
-                                        new ClassPathResource(applicationProperties.getBatchJobs().getTileFileDir()), gZipBufferedReader)
+                                        new ClassPathResource(applicationProperties.getBatchJobs().getTitleFileDir()), gZipBufferedReader)
                         ).processor(processor)
                         .writer(writer)
                         .faultTolerant()

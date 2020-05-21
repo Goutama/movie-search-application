@@ -78,7 +78,6 @@ After this step, we can play with below requirements from UI.
 2. Front end code added only for user interaction and can be improved.
 2. For requirement 3, we can use graph database for better performance.
 3. Unit tests needs to be added for the batch, repository, domain, exception and utility packages.
-4. Batch processes can be improved, like handling restart functionality.
 
 
 
