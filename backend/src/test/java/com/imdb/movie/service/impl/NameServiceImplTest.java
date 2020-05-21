@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Optional;
+import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,7 +52,7 @@ public class NameServiceImplTest {
         Title title = Title.builder()
                 .genres(Sets.newHashSet("Action"))
                 .build();
-        Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.of(name));
+        Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Collections.singletonList(name));
         Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Sets.newHashSet(title));
 
         TypeCastDTO typeCastDTO = nameService.findTypeCastInfo("Pappan Naripatta");
@@ -78,7 +78,7 @@ public class NameServiceImplTest {
                 .tconst("t3")
                 .genres(Sets.newHashSet("Thriller"))
                 .build();
-        Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.of(name));
+        Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Collections.singletonList(name));
         Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Sets.newHashSet(titleOne, titleTwo, titleThree));
 
         TypeCastDTO typeCastDTO = nameService.findTypeCastInfo("Pappan Naripatta");
@@ -89,7 +89,7 @@ public class NameServiceImplTest {
 
     @Test
     public void findName_InValidInput_ShouldThrowException() throws NameNotFoundException {
-        Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.empty());
+        Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(null);
         Assertions.assertThrows(NameNotFoundException.class, () -> {
             nameService.findTypeCastInfo("Pappan Naripatta");
         });
@@ -110,8 +110,8 @@ public class NameServiceImplTest {
                 .primaryTitle("Carmencita")
                 .genres(Sets.newHashSet("Action"))
                 .build();
-        Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Optional.of(nameOne));
-        Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Optional.of(nameTwo));
+        Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Collections.singletonList(nameOne));
+        Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Collections.singletonList(nameTwo));
         Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Sets.newHashSet(title));
         Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Sets.newHashSet(title));
 
@@ -140,8 +140,8 @@ public class NameServiceImplTest {
                 .primaryTitle("TryThisOut")
                 .genres(Sets.newHashSet("Thriller"))
                 .build();
-        Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Optional.of(nameOne));
-        Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Optional.of(nameTwo));
+        Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Collections.singletonList(nameOne));
+        Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Collections.singletonList(nameTwo));
         Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Sets.newHashSet(titleOne));
         Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Sets.newHashSet(titleTwo));
         var coincidenceDTO = nameService.findCoincidence("Pappan Naripatta", "Maik Jain");
@@ -159,8 +159,8 @@ public class NameServiceImplTest {
                 .nconst("n2")
                 .primaryName("Maik Jain")
                 .build();
-        Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Optional.of(nameOne));
-        Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Optional.of(nameTwo));
+        Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Collections.singletonList(nameOne));
+        Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Collections.singletonList(nameTwo));
         Mockito.when(nameRepository.findDegreesOfSeparation("n1", "n2")).thenReturn((short) 1);
         var linkLevelDTO = nameService.findLinkLevel("Pappan Naripatta", "Maik Jain");
 

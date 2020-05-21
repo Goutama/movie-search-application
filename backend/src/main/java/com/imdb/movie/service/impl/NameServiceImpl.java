@@ -13,12 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 /**
  * A service class to manage name related operations.
@@ -131,9 +130,10 @@ public class NameServiceImpl implements NameService {
     }
 
     private Name retrieveName(String name) throws NameNotFoundException {
-        return nameRepository.findByPrimaryName(name)
-                .orElseThrow(() ->
-                        new NameNotFoundException("The actor/actress with name " + name + " not found")
-                );
+        List<Name> names = nameRepository.findByPrimaryName(name);
+        if (isEmpty(names)) {
+            throw new NameNotFoundException("The actor/actress with name " + name + " not found");
+        }
+        return names.get(0);
     }
 }
