@@ -30,7 +30,7 @@
   <br><br>
   <mat-card class="mat-card-result">
     <mat-card-title>Result</mat-card-title>
-    <span *ngIf="isLoading"><i>Please be patient, this request may take several minutes.</i></span>
+    <span *ngIf="isLoading"><i>Please be patient, request may take some time.</i></span>
     <mat-card-content>
       <div *ngIf="requirement == 'typecast' && typeCastInfo">
         The actor/actress <b>{{sourceName}}</b> is <span *ngIf="!typeCastInfo.isTypeCasted"><b>not</b></span> type casted.
