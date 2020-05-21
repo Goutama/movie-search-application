@@ -48,7 +48,12 @@
         </span>
       </div>
       <div *ngIf="requirement == 'degree of separation' && linkLevel">
+        <span *ngIf="linkLevel?.levelOfSeparation != -1; else noLinkLevel">
         The degrees of separation between <b>{{sourceName}}</b> and <b>{{targetName}}</b> is <b>{{linkLevel.levelOfSeparation}}</b>
+          </span>
+        <ng-template #noLinkLevel>
+          Not able to find degrees of separation between <b>{{sourceName}}</b> and <b>{{targetName}}</b>.
+        </ng-template>
       </div>
     </mat-card-content>
   </mat-card>

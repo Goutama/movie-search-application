@@ -121,7 +121,7 @@ public class NameServiceImpl implements NameService {
                 LinkLevelDTO.builder()
                         .sourceName(sourceName)
                         .targetName(targetName)
-                        .levelOfSeparation(distance);
+                        .levelOfSeparation(distance == null ? -1 : distance);
         return builder.build();
     }
 
