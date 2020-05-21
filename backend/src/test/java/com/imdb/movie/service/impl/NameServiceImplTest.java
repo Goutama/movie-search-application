@@ -9,15 +9,18 @@ import com.imdb.movie.repository.NameRepository;
 import com.imdb.movie.repository.TitleRepository;
 import com.imdb.movie.service.NameService;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
 /**
@@ -35,7 +38,7 @@ public class NameServiceImplTest {
 
     private NameService nameService;
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
         nameService = new NameServiceImpl(nameRepository, titleRepository);
@@ -54,8 +57,8 @@ public class NameServiceImplTest {
 
         TypeCastDTO typeCastDTO = nameService.findTypeCastInfo("Pappan Naripatta");
 
-        Assert.assertEquals(true, typeCastDTO.getIsTypeCasted());
-        Assert.assertEquals("Action", typeCastDTO.getGenres().get(0));
+        assertEquals(true, typeCastDTO.getIsTypeCasted());
+        assertEquals("Action", typeCastDTO.getGenres().get(0));
     }
 
     @Test
@@ -80,14 +83,16 @@ public class NameServiceImplTest {
 
         TypeCastDTO typeCastDTO = nameService.findTypeCastInfo("Pappan Naripatta");
 
-        Assert.assertEquals(false, typeCastDTO.getIsTypeCasted());
-        Assert.assertTrue(typeCastDTO.getGenres().isEmpty());
+        assertEquals(false, typeCastDTO.getIsTypeCasted());
+        assertTrue(typeCastDTO.getGenres().isEmpty());
     }
 
-    @Test(expected = NameNotFoundException.class)
+    @Test
     public void findName_InValidInput_ShouldThrowException() throws NameNotFoundException {
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.empty());
-        nameService.findTypeCastInfo("Pappan Naripatta");
+        Assertions.assertThrows(NameNotFoundException.class, () -> {
+            nameService.findTypeCastInfo("Pappan Naripatta");
+        });
     }
 
     @Test
@@ -112,7 +117,7 @@ public class NameServiceImplTest {
 
         var coincidenceDTO = nameService.findCoincidence("Pappan Naripatta", "Maik Jain");
 
-        Assert.assertThat(coincidenceDTO.getCommonTitles(), Matchers.hasItem("Carmencita"));
+        assertThat(coincidenceDTO.getCommonTitles(), Matchers.hasItem("Carmencita"));
     }
 
     @Test
@@ -141,7 +146,7 @@ public class NameServiceImplTest {
         Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Sets.newHashSet(titleTwo));
         var coincidenceDTO = nameService.findCoincidence("Pappan Naripatta", "Maik Jain");
 
-        Assert.assertTrue(coincidenceDTO.getCommonTitles().isEmpty());
+        assertTrue(coincidenceDTO.getCommonTitles().isEmpty());
     }
 
     @Test
@@ -159,6 +164,6 @@ public class NameServiceImplTest {
         Mockito.when(nameRepository.findDegreesOfSeparation("n1", "n2")).thenReturn((short) 1);
         var linkLevelDTO = nameService.findLinkLevel("Pappan Naripatta", "Maik Jain");
 
-        Assert.assertEquals(1, linkLevelDTO.getLevelOfSeparation().shortValue());
+        assertEquals(1, linkLevelDTO.getLevelOfSeparation().shortValue());
     }
 }
