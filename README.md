@@ -1,13 +1,13 @@
 # Movie search application
  
-This app is built to search movies and actors for IMDB datasets.
+This app is built to search movies and actors from IMDB datasets.
 
 **Prerequisites:** 
 [Java 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html), [Maven](https://maven.apache.org/download.cgi), [Node.js](https://nodejs.org/) and [Docker](https://www.docker.com/get-started).
 
 ## Getting Started
 
-Download and place below files into following location: `backend/src/main/resources/data`
+Download below [IMDB datasets](https://datasets.imdbws.com/) and place them into following location: `backend/src/main/resources/data`
 
 1) name.basics.tsv.gz
 2) title.basics.tsv.gz
@@ -73,10 +73,11 @@ After this step, we can play with below requirements from UI.
  
 ## Todo
 
-1. More validation needs to be added to frontend as well as backend
+1. More validation needs to be added to frontend as well as backend.
 2. Front end code added only for display result and can be improved.
 2. For requirement 3, we can use graph database for better performance.
 3. Unit tests needs to be added for batch, repository, domain, exception and utility packages.
+4. Batch processes can be improved to handle restart functionality.
 
 
 

@@ -1,8 +1,7 @@
 package com.imdb.movie.web.rest.errors;
 
 import com.imdb.movie.exception.NameNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,10 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @author gbhat on 14/05/2020.
  */
 @ControllerAdvice
+@Slf4j
 public class ExceptionTranslator {
-
-    private final Logger log = LoggerFactory.getLogger(ExceptionTranslator.class);
-
     /**
      * Exception handler for all the exceptions.
      *
