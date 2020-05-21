@@ -36,7 +36,7 @@ public class NameResourceIT {
     @Test
     public void findTypecastInfo_ValidRequest_ShouldReturnResult() throws Exception {
 
-        movieMockMvc.perform(get("/names/typecast").param("name", "Pappan Naripatta"))
+        movieMockMvc.perform(get("/api/names/typecast").param("name", "Pappan Naripatta"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.isTypeCasted", is(true)))
@@ -46,7 +46,7 @@ public class NameResourceIT {
     @Test
     public void findCoincidence_ValidRequest_ShouldReturnResult() throws Exception {
 
-        movieMockMvc.perform(get("/names/coincidence")
+        movieMockMvc.perform(get("/api/names/coincidence")
                 .param("sourceName", "Pappan Naripatta")
                 .param("targetName", "Mikio Narita"))
                 .andExpect(status().isOk())
@@ -59,7 +59,7 @@ public class NameResourceIT {
     @Test
     public void findLinkLevel_ValidRequest_ShouldReturnResult() throws Exception {
 
-        /*movieMockMvc.perform(get("/names/degrees-of-separation")
+        /*movieMockMvc.perform(get("/api/names/degrees-of-separation")
                 .param("sourceName", "Pappan Naripatta")
                 .param("targetName", "Mikio Narita"))
                 .andExpect(status().isOk())

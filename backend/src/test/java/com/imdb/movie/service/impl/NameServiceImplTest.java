@@ -1,5 +1,6 @@
 package com.imdb.movie.service.impl;
 
+import com.google.common.collect.Sets;
 import com.imdb.movie.domain.Name;
 import com.imdb.movie.domain.Title;
 import com.imdb.movie.dto.TypeCastDTO;
@@ -16,7 +17,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
-import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -47,10 +47,10 @@ public class NameServiceImplTest {
                 .primaryName("Pappan Naripatta")
                 .build();
         Title title = Title.builder()
-                .genres(Set.of("Action"))
+                .genres(Sets.newHashSet("Action"))
                 .build();
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.of(name));
-        Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Set.of(title));
+        Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Sets.newHashSet(title));
 
         TypeCastDTO typeCastDTO = nameService.findTypeCastInfo("Pappan Naripatta");
 
@@ -65,18 +65,18 @@ public class NameServiceImplTest {
                 .build();
         Title titleOne = Title.builder()
                 .tconst("t1")
-                .genres(Set.of("Action"))
+                .genres(Sets.newHashSet("Action"))
                 .build();
         Title titleTwo = Title.builder()
                 .tconst("t2")
-                .genres(Set.of("Comedy"))
+                .genres(Sets.newHashSet("Comedy"))
                 .build();
         Title titleThree = Title.builder()
                 .tconst("t3")
-                .genres(Set.of("Thriller"))
+                .genres(Sets.newHashSet("Thriller"))
                 .build();
         Mockito.when(nameRepository.findByPrimaryName(any())).thenReturn(Optional.of(name));
-        Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Set.of(titleOne, titleTwo, titleThree));
+        Mockito.when(titleRepository.findTitlesByNconsts(any())).thenReturn(Sets.newHashSet(titleOne, titleTwo, titleThree));
 
         TypeCastDTO typeCastDTO = nameService.findTypeCastInfo("Pappan Naripatta");
 
@@ -103,12 +103,12 @@ public class NameServiceImplTest {
         Title title = Title.builder()
                 .tconst("t1")
                 .primaryTitle("Carmencita")
-                .genres(Set.of("Action"))
+                .genres(Sets.newHashSet("Action"))
                 .build();
         Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Optional.of(nameOne));
         Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Optional.of(nameTwo));
-        Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Set.of(title));
-        Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Set.of(title));
+        Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Sets.newHashSet(title));
+        Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Sets.newHashSet(title));
 
         var coincidenceDTO = nameService.findCoincidence("Pappan Naripatta", "Maik Jain");
 
@@ -128,17 +128,17 @@ public class NameServiceImplTest {
         Title titleOne = Title.builder()
                 .tconst("t1")
                 .primaryTitle("Carmencita")
-                .genres(Set.of("Action"))
+                .genres(Sets.newHashSet("Action"))
                 .build();
         Title titleTwo = Title.builder()
                 .tconst("t2")
                 .primaryTitle("TryThisOut")
-                .genres(Set.of("Thriller"))
+                .genres(Sets.newHashSet("Thriller"))
                 .build();
         Mockito.when(nameRepository.findByPrimaryName("Pappan Naripatta")).thenReturn(Optional.of(nameOne));
         Mockito.when(nameRepository.findByPrimaryName("Maik Jain")).thenReturn(Optional.of(nameTwo));
-        Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Set.of(titleOne));
-        Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Set.of(titleTwo));
+        Mockito.when(titleRepository.findTitlesByNconsts("n1")).thenReturn(Sets.newHashSet(titleOne));
+        Mockito.when(titleRepository.findTitlesByNconsts("n2")).thenReturn(Sets.newHashSet(titleTwo));
         var coincidenceDTO = nameService.findCoincidence("Pappan Naripatta", "Maik Jain");
 
         Assert.assertTrue(coincidenceDTO.getCommonTitles().isEmpty());

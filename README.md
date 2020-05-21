@@ -7,11 +7,12 @@ This app is built to search movies and actors from IMDB datasets.
 
 ## Getting Started
 
-Download below [IMDB datasets](https://datasets.imdbws.com/) and place them into following location: `backend/src/main/resources/data`
+Download below [IMDB datasets](https://datasets.imdbws.com/). Create a folder named "data" in side resources(`backend/src/main/resources`) and place downloaded files inside the data folder.
+So,final location will be `backend/src/main/resources/data`
 
 1) name.basics.tsv.gz
 2) title.basics.tsv.gz
-3) title.principals.tsv.gz
+3) title.principals.tsv.gz 
 
 To start the postgreSQL service , cd into the `backend` folder and run:
 
