@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * REST controller for managing Search search.
+ * REST controller for managing name search.
  *
  * @author gbhat on 18/05/2020.
  */
