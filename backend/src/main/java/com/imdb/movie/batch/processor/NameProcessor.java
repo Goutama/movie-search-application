@@ -26,7 +26,8 @@ public class NameProcessor implements ItemProcessor<Name, Name> {
     @Override
     public Name process(Name name) {
         Optional<Name> nameFromDb = nameRepository.findByNconst(name.getNconst());
-        return nameFromDb.orElse(name);
+        if (nameFromDb.isPresent()) return null;
+        return name;
     }
 
 }

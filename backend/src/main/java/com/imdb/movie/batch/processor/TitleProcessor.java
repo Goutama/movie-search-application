@@ -26,7 +26,8 @@ public class TitleProcessor implements ItemProcessor<Title, Title> {
     @Override
     public Title process(Title title) {
         Optional<Title> titleFromDb = titleRepository.findByTconst(title.getTconst());
-        return titleFromDb.orElse(title);
+        if (titleFromDb.isPresent()) return null;
+        return title;
     }
 
 }

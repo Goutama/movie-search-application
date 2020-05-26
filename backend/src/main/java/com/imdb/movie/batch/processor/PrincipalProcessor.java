@@ -26,7 +26,8 @@ public class PrincipalProcessor implements ItemProcessor<Principal, Principal> {
     @Override
     public Principal process(Principal principal) {
         Optional<Principal> principalFromDb = principalRepository.findByTconstAndOrdering(principal.getTconst(), principal.getOrdering());
-        return principalFromDb.orElse(principal);
+        if (principalFromDb.isPresent()) return null;
+        return principal;
     }
 
 }
