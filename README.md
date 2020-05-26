@@ -61,13 +61,13 @@ This step takes more than an hour to import all the data.
 
 After this step, we can play with the below requirements from UI.
  
- Requirement #1:
+- Requirement #1:
  Typecasting: Given a query by the user, where he/she provides an actor/actress name, the system should determine if that person has become typecasted (at least half of their work is one genre).
  
- Requirement #2:
+- Requirement #2:
  Find the coincidence: Given a query by the user, where the input is two actors/actresses names, the application replies with a list of movies or TV shows that both people have shared.
  
- Requirement #3:
+- Requirement #3:
  Six degrees of Kevin Bacon: Given a query by the user, you must provide what’s the degree of separation between the person (e.g. actor or actress) the user has entered and Kevin Bacon.
  
  
