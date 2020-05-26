@@ -66,7 +66,7 @@ public class PrincipalJob extends JobExecutionListenerSupport {
                         .writer(writer)
                         .faultTolerant()
                         .skipLimit(100)
-                        .skip(IncorrectTokenCountException.class)
+                        .skip(Exception.class)
                         .taskExecutor(taskExecutor)
                         .build();
 
