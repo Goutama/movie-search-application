@@ -15,7 +15,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
-import org.springframework.batch.item.file.transform.IncorrectTokenCountException;
+import org.springframework.batch.item.file.FlatFileParseException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.task.TaskExecutor;
@@ -66,7 +66,7 @@ public class PrincipalJob extends JobExecutionListenerSupport {
                         .writer(writer)
                         .faultTolerant()
                         .skipLimit(100)
-                        .skip(Exception.class)
+                        .skip(FlatFileParseException.class)
                         .taskExecutor(taskExecutor)
                         .build();
 
