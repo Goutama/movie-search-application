@@ -32,6 +32,7 @@ public class PrincipalReader extends FlatFileItemReader<Principal> {
         defaultLineMapper.setFieldSetMapper(new PrincipalMapper());
 
         setLineMapper(defaultLineMapper);
+        setLinesToSkip(1);
         setSaveState(false);
     }
 }

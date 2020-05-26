@@ -32,6 +32,7 @@ public class NameReader extends FlatFileItemReader<Name> {
         defaultLineMapper.setFieldSetMapper(new NameMapper());
 
         setLineMapper(defaultLineMapper);
+        setLinesToSkip(1);
         setSaveState(false);
     }
 }
