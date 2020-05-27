@@ -23,7 +23,7 @@
             <input [(ngModel)]="targetName" matInput>
           </label>
         </mat-form-field>
-        <button mat-raised-button [disabled]="isLoading" (click)="search(); errorMessage='';">Search</button>
+        <button mat-raised-button [disabled]="isLoading" (click)="search(); errorMessage='';resetResults()">Search</button>
       </li>
     </mat-card-content>
   </mat-card>
@@ -33,26 +33,26 @@
     <span *ngIf="isLoading"><i>Please be patient, request may take some time.</i></span>
     <mat-card-content>
       <div *ngIf="requirement == 'typecast' && typeCastInfo">
-        The actor/actress <b>{{sourceName}}</b> is <span *ngIf="!typeCastInfo.isTypeCasted"><b>not</b></span> type casted.
+        The actor/actress <b>{{typeCastInfo.name}}</b> is <span *ngIf="!typeCastInfo.isTypeCasted"><b>not</b></span> type casted.
         <p *ngIf="typeCastInfo.isTypeCasted">Genre(s): {{typeCastInfo.genres}}</p>
       </div>
       <div *ngIf="requirement == 'coincidence' && coincidence">
         <span *ngIf="coincidence.commonTitles?.length > 0">
-          The common movies and tv shows acted by <b>{{sourceName}}</b> and <b>{{targetName}}</b> are,
+          The common movies and tv shows acted by <b>{{coincidence.sourceName}}</b> and <b>{{coincidence.targetName}}</b> are,
         <p>
           {{coincidence.commonTitles}}
         </p>
         </span>
         <span *ngIf="coincidence.commonTitles?.length == 0">
-          No common movies or tv shows found for <b>{{sourceName}}</b> and <b>{{targetName}}</b>.
+          No common movies or tv shows found for <b>{{coincidence.sourceName}}</b> and <b>{{coincidence.targetName}}</b>.
         </span>
       </div>
       <div *ngIf="requirement == 'degree of separation' && linkLevel">
         <span *ngIf="linkLevel?.levelOfSeparation != -1; else noLinkLevel">
-        The degrees of separation between <b>{{sourceName}}</b> and <b>{{targetName}}</b> is <b>{{linkLevel.levelOfSeparation}}</b>
+        The degrees of separation between <b>{{linkLevel.sourceName}}</b> and <b>{{linkLevel.targetName}}</b> is <b>{{linkLevel.levelOfSeparation}}</b>
           </span>
         <ng-template #noLinkLevel>
-          Not able to find degrees of separation between <b>{{sourceName}}</b> and <b>{{targetName}}</b>.
+          Not able to find degrees of separation between <b>{{linkLevel.sourceName}}</b> and <b>{{linkLevel.targetName}}</b>.
         </ng-template>
       </div>
     </mat-card-content>

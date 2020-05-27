@@ -95,11 +95,15 @@ export class SearchPageComponent implements OnInit {
     this.sourceName = '';
     this.targetName = '';
     this.errorMessage = '';
-    this.typeCastInfo = null;
-    this.coincidence = null;
-    this.linkLevel = null;
+    this.resetResults();
     if (this.requirement === 'degree of separation') {
       this.targetName = 'Kevin Bacon';
     }
   }
+
+  resetResults(){
+   this.typeCastInfo = null;
+   this.coincidence = null;
+   this.linkLevel = null;
+   }
 }
